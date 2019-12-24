@@ -1,7 +1,6 @@
-package dataStructure;
 
 public class Edge implements edge_data{
-    Node src, dest ;
+    NodeData src, dest ;
     double weight;
     String info;
     int tag;
