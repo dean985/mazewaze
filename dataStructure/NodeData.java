@@ -2,10 +2,10 @@
 import java.util.Hashtable;
 
 public class NodeData implements node_data {
-    int key;
-    Point3D position;
-    double weight;
-    int tag;
+    private int key;
+    private Point3D position;
+    private double weight;
+    private int tag;
     Hashtable<NodeData,Integer > connections =
             new Hashtable<NodeData,Integer>();
 
