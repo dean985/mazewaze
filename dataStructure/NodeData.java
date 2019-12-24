@@ -1,18 +1,41 @@
 
 import java.util.Hashtable;
 
+enum Colors{
+    Red,Black,Green,Yellow, Purple, Gray;
+        }
+
+
 public class NodeData implements node_data {
     private int key;
     private Point3D position;
     private double weight;
     private int tag;
-    Hashtable<NodeData,Integer > connections =
-            new Hashtable<NodeData,Integer>();
+    public int previous;
+    public boolean visited;
+    Hashtable<Edge,Integer > connections =
+            new Hashtable<Edge,Integer>();
 
+    public NodeData (int key, double weight){
+        this.key = key;
+        this.weight = weight;
+        previous = -1;
+        visited = false;
+    }
 
-   public NodeData(int key, Point3D point3D)
+    public NodeData(NodeData n){
+        this.key = n.key;
+        this.weight = n.key;
+        this.previous = n.previous;
+        this.visited = n.visited;
+    }
+
+   public NodeData(int key, double weight, Point3D point3D)
     {
         this.key = key;
+        this.weight = weight;
+        previous = -1;
+        visited = false;
         this.position = point3D;
     }
 
@@ -55,7 +78,6 @@ public class NodeData implements node_data {
     {
 
     }
-
     @Override
     public int getTag() {
         return tag;
