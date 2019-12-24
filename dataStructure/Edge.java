@@ -1,12 +1,23 @@
-package dataStructure;
 
 public class Edge implements edge_data{
-    Node src, dest ;
+    NodeData src, dest ;
     double weight;
     String info;
     int tag;
 
+    ///////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////Constructor/////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////
+    public Edge(Node src, Node dest, double weight){
+        this.src = src;
+        this.dest = dest;
+        this.weight = weight;
+    }
 
+
+    ///////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////Getters and Setters/////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////
     /**
      * The id of the source node of this edge.
      *
@@ -75,5 +86,13 @@ public class Edge implements edge_data{
     @Override
     public void setTag(int t) {
         this.tag = t;
+    }
+
+    public void setDest(Node dest) {
+        this.dest = dest;
+    }
+
+    public void setSrc(Node src) {
+        this.src = src;
     }
 }

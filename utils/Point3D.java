@@ -3,7 +3,6 @@
  * for 2D including Point-Line test.
  */
 
-package utils;
 
 import java.io.Serializable;
 
