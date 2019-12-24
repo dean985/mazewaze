@@ -1,8 +1,5 @@
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 
 public class DGraph implements graph{
 	///////////////////////////////////////////////////////////////////////////////////
@@ -10,8 +7,11 @@ public class DGraph implements graph{
 	///////////////////////////////////////////////////////////////////////////////////
 	private int N;		//Number of nodes in graph
 	private int E;		// Number of edges in graph
-	private ArrayList<Integer> [] connectivity;	// an array of arraylist. connectivity[n] will show n's connections
-
+	Hashtable<Integer, NodeData> connectivity=
+			new Hashtable<Integer, NodeData>();
+	// Hashtable: <key, value>
+	// key - node.key
+	// value - node that has that key.
 
 	///////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////Constructor/////////////////////////////////////
@@ -22,9 +22,9 @@ public class DGraph implements graph{
 		if(n < 0) throw new IllegalArgumentException("number of nodes should be non-negative ");
 		this.N = n;
 		this.E = 0;
-		this.connectivity =  new ArrayList[n];
-		for (int i = 0; i <n; i++){
-			this.connectivity[i] = new ArrayList<Integer>();
+		for (int i =0; i< n; i++){
+			NodeData node = new NodeData(i);
+			connectivity.put(node.getKey(), node);
 		}
 	}
 
@@ -35,26 +35,42 @@ public class DGraph implements graph{
 
 	@Override
 	public node_data getNode(int key) {
+		return connectivity.get(key);
 
-		return null;
 	}
 
 	@Override
 	public edge_data getEdge(int src, int dest) {
+		NodeData src_node = connectivity.get(src);
+		NodeData dest_node = connectivity.get(dest);
+		if (dest_node == null || src_node == null){
+			throw new IllegalArgumentException("Source or Destination isn't found");
+		}
+		return src_node.getEdgesByKey(dest);
 
-		return null;
 	}
 
 	@Override
 	public void addNode(node_data n) {
-		// TODO Auto-generated method stub
+		this.connectivity.put(this.N +1 , (NodeData) n);
+		this.N ++;
 		
+
 	}
 
 	@Override
 	public void connect(int src, int dest, double w) {
-		// TODO Auto-generated method stub
-		
+		node_data src_node = connectivity.get(src);
+				if (src_node == null){
+					throw new IllegalArgumentException("Source key not found");
+				}
+				node_data dest_node = connectivity.get(dest);
+				if (dest_node == null){
+					throw new IllegalArgumentException("Source key not found");
+				}
+		Edge e = new Edge((NodeData) dest_node,w);
+		((NodeData) src_node).adjacency.put(dest_node.getKey() ,e );
+		this.E++;
 	}
 
 	@Override

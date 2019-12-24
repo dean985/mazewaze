@@ -1,6 +1,5 @@
 
 public class Edge implements edge_data{
-    //NodeData src, dest ;
     NodeData node;              // Destination Node
     double weight;
     String info;

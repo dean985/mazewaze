@@ -13,15 +13,26 @@ public class NodeData implements node_data {
     private int tag;
     public int previous;
     public boolean visited;
-    Hashtable<Edge,Integer > connections =
-            new Hashtable<Edge,Integer>();
+    // K - dest_node's key , V - Edge that is directing towards that dest_node
+    public Hashtable<Integer, Edge> adjacency = new Hashtable<Integer, Edge>();
+
+
+    public NodeData (int key){
+        Point3D p1 = new Point3D(Math.random()*10,Math.random()*10,Math.random()*10);
+        this.key = key;
+        this.weight = 0;
+        previous = -1;
+        visited = false;
+
+    }
 
     public NodeData (int key, double weight){
+        Point3D p1 = new Point3D(Math.random()*10,Math.random()*10,Math.random()*10);
         this.key = key;
         this.weight = weight;
         previous = -1;
         visited = false;
-        
+
     }
 
     public NodeData(NodeData n){
@@ -40,6 +51,10 @@ public class NodeData implements node_data {
         this.position = point3D;
     }
 
+    public Edge getEdgesByKey(int key){
+        // key of destination
+        return adjacency.get(key);
+    }
     @Override
     public int getKey() {
         return this.key;
@@ -70,7 +85,7 @@ public class NodeData implements node_data {
        String str ;
        str = "key: " +  Double.toString(key) + " ";
        str += "(" + position.x() + "," + position.y() + "," + position.z() + ") \n";
-       str += connections.toString();
+       str += adjacency.toString();
         return str;
     }
 

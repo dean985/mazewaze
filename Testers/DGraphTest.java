@@ -1,22 +1,26 @@
-import org.junit.gen5.api.Test;
 
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 class DGraphTest {
+    static DGraph graph;
+    @BeforeAll
+    static void init()
+    {
+        graph = new DGraph(5);
 
-    public static void main(String[] args) {
-        NodeData nodeData = new NodeData(1,new Point3D(10,10,0));
-
-        System.out.println(nodeData.getInfo());
     }
-
     @Test
     void getNode()
     {
-
+        Assertions.assertEquals(graph.getNode(1), graph.connectivity.get(1));
     }
 
     @Test
     void getEdge() {
+        graph.connect(1,4 , 4.5);
+        Assertions.assertEquals(((Edge)graph.getEdge(1,4)).weight, 4.5 );
     }
 
     @Test
@@ -25,6 +29,10 @@ class DGraphTest {
 
     @Test
     void connect() {
+        graph.connect(0, 2, 2.5);
+        Assertions.assertNotNull(graph.connectivity.get(0).getEdgesByKey(2));
+        Assertions.assertNull(graph.connectivity.get(0).getEdgesByKey(1));
+        Assertions.assertEquals(graph.connectivity.get(2), graph.connectivity.get(0).getEdgesByKey(2).node);
     }
 
     @Test
