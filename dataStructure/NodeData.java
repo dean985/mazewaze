@@ -21,6 +21,7 @@ public class NodeData implements node_data {
         this.weight = weight;
         previous = -1;
         visited = false;
+        
     }
 
     public NodeData(NodeData n){
