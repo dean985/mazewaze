@@ -1,7 +1,6 @@
-
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.*;
 
 class DGraphTest {
     static DGraph graph;
@@ -24,7 +23,9 @@ class DGraphTest {
     }
 
     @Test
-    void addNode() {
+    void addNode()
+    {
+
     }
 
     @Test
@@ -44,11 +45,32 @@ class DGraphTest {
     }
 
     @Test
-    void removeNode() {
+    void removeNode()
+    {
+        graph.connect(2, 0, 2.5);
+        graph.connect(2, 1, 2.5);
+
+        graph.removeNode(0);
+        Assertions.assertNull(graph.connectivity.get(2).getEdgesByKey(0));
+        Assertions.assertNull(graph.connectivity.get(0));
+
+        Assertions.assertNotNull(graph.connectivity.get(1));
+        Assertions.assertNotNull(graph.connectivity.get(2).getEdgesByKey(1));
+
+
+
     }
 
     @Test
-    void removeEdge() {
+    void removeEdge()
+    {
+        graph.connect(2, 0, 2.5);
+        graph.connect(2, 1, 2.5);
+        Assertions.assertNull(graph.connectivity.get(2).getEdgesByKey(0));
+        graph.removeEdge(2,0);
+        Assertions.assertNull(graph.connectivity.get(2).getEdgesByKey(0));
+        Assertions.assertNull(graph.connectivity.get(0));
+
     }
 
     @Test

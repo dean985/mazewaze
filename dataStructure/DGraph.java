@@ -1,7 +1,8 @@
 
+import java.io.Serializable;
 import java.util.*;
 
-public class DGraph implements graph{
+public class DGraph implements graph, Serializable {
 	///////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////Fields//////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////
@@ -52,6 +53,8 @@ public class DGraph implements graph{
 
 	@Override
 	public void addNode(node_data n) {
+		if( this.connectivity.get(n.getKey()) != null)
+			throw new IllegalArgumentException("the key is already exist");
 		this.connectivity.put(this.N +1 , (NodeData) n);
 		this.N ++;
 		
@@ -87,14 +90,19 @@ public class DGraph implements graph{
 
 	@Override
 	public node_data removeNode(int key) {
-		// TODO Auto-generated method stub
-		return null;
+		//remove the node
+		NodeData nr = connectivity.remove(key);
+		// run on each node and remove the key in each adjacency so we wont hear from that node again
+		connectivity.forEach((i,n) -> {
+			n.adjacency.remove(key);
+		} );
+		return nr;
 	}
 
 	@Override
 	public edge_data removeEdge(int src, int dest) {
-		// TODO Auto-generated method stub
-		return null;
+		Edge er = connectivity.get(src).adjacency.remove(dest);
+		return er;
 	}
 
 	@Override

@@ -1,4 +1,5 @@
 
+import java.io.Serializable;
 import java.util.Hashtable;
 
 enum Colors{
@@ -6,7 +7,7 @@ enum Colors{
         }
 
 
-public class NodeData implements node_data {
+public class NodeData implements node_data, Serializable {
     private int key;
     private Point3D position;
     private double weight;

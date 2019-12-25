@@ -1,5 +1,6 @@
+import java.io.Serializable;
 
-public class Edge implements edge_data{
+public class Edge implements edge_data, Serializable {
     NodeData node;              // Destination Node
     double weight;
     String info;
