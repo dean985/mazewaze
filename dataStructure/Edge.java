@@ -11,7 +11,7 @@ public class Edge implements edge_data, Serializable {
     ///////////////////////////////////////////////////////////////////////////////////
     public Edge(NodeData node, double weight){
         this.node = node;
-        this.weight = weight;
+            this.weight = Math.abs(weight);
 
     }
 

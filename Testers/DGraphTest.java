@@ -17,6 +17,7 @@ class DGraphTest {
     void getNode()
     {
         Assertions.assertEquals(graph.getNode(1), graph.connectivity.get(1));
+        Assertions.assertEquals(graph.getNode(-1), null);
     }
 
     @Test

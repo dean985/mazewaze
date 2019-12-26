@@ -30,7 +30,7 @@ public class NodeData implements node_data, Serializable {
     public NodeData (int key, double weight){
         Point3D p1 = new Point3D(Math.random()*10,Math.random()*10,Math.random()*10);
         this.key = key;
-        this.weight = weight;
+        this.weight = Math.abs(weight);
         previous = -1;
         visited = false;
 
