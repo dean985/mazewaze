@@ -76,6 +76,7 @@ public class DGraph implements graph, Serializable {
 		Edge e = new Edge((NodeData) dest_node,w);
 		((NodeData) src_node).adjacency.put(dest_node.getKey() ,e );
 		this.E++;
+		changes++;
 	}
 
 	@Override

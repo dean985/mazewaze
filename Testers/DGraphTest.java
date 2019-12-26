@@ -28,7 +28,9 @@ class DGraphTest {
     @Test
     void addNode()
     {
-
+        node_data n = new NodeData(6);
+        graph.addNode(n);
+        Assertions.assertEquals(6, graph.nodeSize());
     }
 
     @Test
@@ -89,13 +91,26 @@ class DGraphTest {
 
     @Test
     void nodeSize() {
+        Assertions.assertEquals(5, graph.nodeSize());
     }
 
     @Test
     void edgeSize() {
+        graph.connect(0,1,1);
+        graph.connect(1,2,2);
+        graph.connect(3,4,2);
+        Assertions.assertEquals(3, graph.edgeSize());
     }
 
     @Test
     void getMC() {
+        Assertions.assertEquals(0, graph.getMC());
+        graph.connect(0,1,1);
+        node_data n = new NodeData(6);
+        graph.addNode(n);
+        Assertions.assertEquals(2, graph.getMC());
+        graph.removeNode(6);
+        Assertions.assertEquals(3,graph.getMC());
+
     }
 }
