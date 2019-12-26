@@ -31,7 +31,7 @@ class Graph_AlgoTest {
         g.dGraph.connect(0,1,1);
         g.save("yard.txt");
         g2.init("yard.txt");
-        Assertions.assertNotNull(((DGraph)g2.dGraph).connectivity.get(0).adjacency.get(1));
+        Assertions.assertNotNull(((NodeData)((DGraph)g2.dGraph).connectivity.get(0)).adjacency.get(1));
     }
 
     @Test

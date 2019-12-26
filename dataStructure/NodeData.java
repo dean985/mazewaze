@@ -15,7 +15,7 @@ public class NodeData implements node_data, Serializable {
     public int previous;
     public boolean visited;
     // K - dest_node's key , V - Edge that is directing towards that dest_node
-    public Hashtable<Integer, Edge> adjacency = new Hashtable<Integer, Edge>();
+    public Hashtable<Integer, edge_data> adjacency = new Hashtable<Integer, edge_data>();
 
 
     public NodeData (int key){
@@ -54,7 +54,7 @@ public class NodeData implements node_data, Serializable {
 
     public Edge getEdgesByKey(int key){
         // key of destination
-        return adjacency.get(key);
+        return (Edge) adjacency.get(key);
     }
     @Override
     public int getKey() {

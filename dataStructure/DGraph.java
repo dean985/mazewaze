@@ -6,6 +6,7 @@ public class DGraph implements graph, Serializable {
 	///////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////Fields//////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////
+	int changes = 0;	// For MC
 	private int N;		//Number of nodes in graph
 	private int E;		// Number of edges in graph
 	Hashtable<Integer, node_data> connectivity=
@@ -57,6 +58,7 @@ public class DGraph implements graph, Serializable {
 			throw new IllegalArgumentException("the key is already exist");
 		this.connectivity.put(this.N +1 , (NodeData) n);
 		this.N ++;
+		changes++;
 		
 
 	}
@@ -84,42 +86,54 @@ public class DGraph implements graph, Serializable {
 	@Override
 	public Collection<edge_data> getE(int node_id) {
 		// returns all edges that goes from node_id
-		this.getNode(node_id)
+		Collection<edge_data> e = ((NodeData)this.connectivity.get(node_id)).adjacency.values();
+		return e;
 	}
 
 	@Override
 	public node_data removeNode(int key) {
-		//remove the node
-		NodeData nr = connectivity.remove(key);
-		// run on each node and remove the key in each adjacency so we wont hear from that node again
-		connectivity.forEach((i,n) -> {
-			n.adjacency.remove(key);
-		} );
-		return nr;
+		if (this.connectivity.containsKey(key)){
+			//remove the node
+			NodeData nr = (NodeData) connectivity.remove(key);
+			// run on each node and remove the key in each adjacency so we wont hear from that node again
+			connectivity.forEach((i,n) -> {
+				edge_data e_deleted = ((NodeData)n).adjacency.remove(key);
+				if (e_deleted != null){
+					E--;
+				}
+			} );
+			N--;
+			changes++;
+			return nr;
+		}
+		return null;
 	}
 
 	@Override
 	public edge_data removeEdge(int src, int dest) {
-		Edge er = connectivity.get(src).adjacency.remove(dest);
-		return er;
+		if (this.connectivity.containsKey(src) && this.connectivity.containsKey(dest) ){
+			edge_data er = ((NodeData)connectivity.get(src)).adjacency.remove(dest);
+			E--;
+			changes++;
+			return er;
+		}
+		return null;
 	}
 
 	@Override
 	public int nodeSize() {
-		// TODO Auto-generated method stub
-		return 0;
+		//return this.connectivity.size();
+		return N;
 	}
 
 	@Override
 	public int edgeSize() {
-		// TODO Auto-generated method stub
-		return 0;
+		return E;
 	}
 
 	@Override
 	public int getMC() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
+		return changes;
+	}
 }
