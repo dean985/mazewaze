@@ -31,13 +31,15 @@ class DGraphTest {
     @Test
     void connect() {
         graph.connect(0, 2, 2.5);
-        Assertions.assertNotNull(graph.connectivity.get(0).getEdgesByKey(2));
-        Assertions.assertNull(graph.connectivity.get(0).getEdgesByKey(1));
-        Assertions.assertEquals(graph.connectivity.get(2), graph.connectivity.get(0).getEdgesByKey(2).node);
+        NodeData n1 = (NodeData) graph.connectivity.get(0);
+        Assertions.assertNotNull(n1.getEdgesByKey(2));
+        Assertions.assertNull(n1.getEdgesByKey(1));
+        Assertions.assertEquals(graph.connectivity.get(2), n1.getEdgesByKey(2).node);
     }
 
     @Test
     void getV() {
+        Assertions.assertEquals(5,graph.getV().size());
     }
 
     @Test

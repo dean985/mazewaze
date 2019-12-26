@@ -8,8 +8,8 @@ public class DGraph implements graph, Serializable {
 	///////////////////////////////////////////////////////////////////////////////////
 	private int N;		//Number of nodes in graph
 	private int E;		// Number of edges in graph
-	Hashtable<Integer, NodeData> connectivity=
-			new Hashtable<Integer, NodeData>();
+	Hashtable<Integer, node_data> connectivity=
+			new Hashtable<Integer, node_data>();
 	// Hashtable: <key, value>
 	// key - node.key
 	// value - node that has that key.
@@ -42,8 +42,8 @@ public class DGraph implements graph, Serializable {
 
 	@Override
 	public edge_data getEdge(int src, int dest) {
-		NodeData src_node = connectivity.get(src);
-		NodeData dest_node = connectivity.get(dest);
+		NodeData src_node = (NodeData) connectivity.get(src);
+		NodeData dest_node = (NodeData) connectivity.get(dest);
 		if (dest_node == null || src_node == null){
 			throw new IllegalArgumentException("Source or Destination isn't found");
 		}
@@ -78,14 +78,13 @@ public class DGraph implements graph, Serializable {
 
 	@Override
 	public Collection<node_data> getV() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.connectivity.values();
 	}
 
 	@Override
 	public Collection<edge_data> getE(int node_id) {
-		// TODO Auto-generated method stub
-		return null;
+		// returns all edges that goes from node_id
+		this.getNode(node_id)
 	}
 
 	@Override
