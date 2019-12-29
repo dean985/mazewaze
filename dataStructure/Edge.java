@@ -1,6 +1,7 @@
+import java.io.Serializable;
 
-public class Edge implements edge_data{
-    NodeData src, dest ;
+public class Edge implements edge_data, Serializable {
+    NodeData node;              // Destination Node
     double weight;
     String info;
     int tag;
@@ -8,10 +9,10 @@ public class Edge implements edge_data{
     ///////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////Constructor/////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////////
-    public Edge(Node src, Node dest, double weight){
-        this.src = src;
-        this.dest = dest;
-        this.weight = weight;
+    public Edge(NodeData node, double weight){
+        this.node = node;
+            this.weight = Math.abs(weight);
+
     }
 
 
@@ -25,7 +26,7 @@ public class Edge implements edge_data{
      */
     @Override
     public int getSrc() {
-        return src.getKey();
+        return this.node.previous;
     }
 
     /**
@@ -35,7 +36,7 @@ public class Edge implements edge_data{
      */
     @Override
     public int getDest() {
-        return dest.getKey();
+        return this.node.getKey();
     }
 
     /**
@@ -88,11 +89,11 @@ public class Edge implements edge_data{
         this.tag = t;
     }
 
-    public void setDest(Node dest) {
-        this.dest = dest;
+    public void setDest(NodeData dest) {
+        this.node = dest;
     }
 
-    public void setSrc(Node src) {
-        this.src = src;
+    public void setSrc(NodeData src) {
+        this.node.previous = src.getKey();
     }
 }

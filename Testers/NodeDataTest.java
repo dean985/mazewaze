@@ -1,5 +1,6 @@
-import org.junit.gen5.api.BeforeAll;
-import org.junit.gen5.api.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 
 class NodeDataTest {
@@ -9,7 +10,7 @@ class NodeDataTest {
     @BeforeAll
     void init()
     {
-       node = new NodeData(1,new Point3D(1,1,0));
+       //node = new NodeData(1,new Point3D(1,1,0));
 
     }
 

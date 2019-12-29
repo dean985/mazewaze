@@ -1,21 +1,61 @@
 
+import java.io.Serializable;
 import java.util.Hashtable;
 
-public class NodeData implements node_data {
+enum Colors{
+    Red,Black,Green,Yellow, Purple, Gray;
+        }
+
+
+public class NodeData implements node_data, Serializable {
     private int key;
     private Point3D position;
     private double weight;
     private int tag;
-    Hashtable<NodeData,Integer > connections =
-            new Hashtable<NodeData,Integer>();
+    public int previous;
+    public boolean visited;
+    // K - dest_node's key , V - Edge that is directing towards that dest_node
+    public Hashtable<Integer, edge_data> adjacency = new Hashtable<Integer, edge_data>();
 
 
-   public NodeData(int key, Point3D point3D)
+    public NodeData (int key){
+        Point3D p1 = new Point3D(Math.random()*10,Math.random()*10,Math.random()*10);
+        this.key = key;
+        this.weight = 0;
+        previous = -1;
+        visited = false;
+
+    }
+
+    public NodeData (int key, double weight){
+        Point3D p1 = new Point3D(Math.random()*10,Math.random()*10,Math.random()*10);
+        this.key = key;
+        this.weight = Math.abs(weight);
+        previous = -1;
+        visited = false;
+
+    }
+
+    public NodeData(NodeData n){
+        this.key = n.key;
+        this.weight = n.key;
+        this.previous = n.previous;
+        this.visited = n.visited;
+    }
+
+   public NodeData(int key, double weight, Point3D point3D)
     {
         this.key = key;
+        this.weight = weight;
+        previous = -1;
+        visited = false;
         this.position = point3D;
     }
 
+    public Edge getEdgesByKey(int key){
+        // key of destination
+        return (Edge) adjacency.get(key);
+    }
     @Override
     public int getKey() {
         return this.key;
@@ -46,7 +86,7 @@ public class NodeData implements node_data {
        String str ;
        str = "key: " +  Double.toString(key) + " ";
        str += "(" + position.x() + "," + position.y() + "," + position.z() + ") \n";
-       str += connections.toString();
+       str += adjacency.toString();
         return str;
     }
 
@@ -55,7 +95,6 @@ public class NodeData implements node_data {
     {
 
     }
-
     @Override
     public int getTag() {
         return tag;
