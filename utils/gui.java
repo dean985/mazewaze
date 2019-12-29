@@ -3,7 +3,7 @@ import utils.StdDraw;
 public class gui {
 
     public static void main(String[] args) {
-
+        initGraph_menuUP();
     }
 
     public static void initGraph_menuDOWN(){
@@ -53,19 +53,19 @@ public class gui {
 
         ///////////////////////////Button Bar
         StdDraw.setPenColor(255,0,0);
-        StdDraw.rectangle(width_window/2, height_window/12, BAR_W, BAR_H);
+        StdDraw.rectangle(width_window/2, (11*height_window)/12, BAR_W, BAR_H);
 
         //Button 1
         int first_button_x = width_window/12;
-
-        StdDraw.text(first_button_x, 60, "Button 1");
+        int height_of_button = height_window - 60;
+        StdDraw.text(first_button_x, height_of_button "Button 1");
 
         //Button 2
-        StdDraw.text(first_button_x*2.2  , 60, "Button 2");
+        StdDraw.text(first_button_x*2.2  , height_of_button, "Button 2");
         //Button 3
-        StdDraw.text(first_button_x*3.4 , 60, "Button 3");
+        StdDraw.text(first_button_x*3.4 , height_of_button, "Button 3");
         //Button 4
-        StdDraw.text(first_button_x*4.6 , 60, "Button 4");
+        StdDraw.text(first_button_x*4.6 , height_of_button, "Button 4");
 
         //////////////////////////////////Status bar
         StdDraw.setPenColor(0,0,255);
