@@ -49,16 +49,16 @@ public class gui {
         StdDraw.setYscale(0,height_window);
 
         int BAR_W = width_window/2 -5;                          //Bar half Width
-        int BAR_H = height_window- 50;                          //Bar half height
+        int BAR_H =  30;                                        //Bar half height
 
         ///////////////////////////Button Bar
         StdDraw.setPenColor(255,0,0);
-        StdDraw.rectangle(width_window/2, (11*height_window)/12, BAR_W, BAR_H);
+        StdDraw.rectangle(width_window/2, (height_window*0.95), BAR_W, BAR_H);
 
         //Button 1
         int first_button_x = width_window/12;
-        int height_of_button = height_window - 60;
-        StdDraw.text(first_button_x, height_of_button "Button 1");
+        int height_of_button = height_window - 30;
+        StdDraw.text(first_button_x, height_of_button, "Button 1");
 
         //Button 2
         StdDraw.text(first_button_x*2.2  , height_of_button, "Button 2");
@@ -69,8 +69,8 @@ public class gui {
 
         //////////////////////////////////Status bar
         StdDraw.setPenColor(0,0,255);
-        StdDraw.rectangle(width_window/2, height_window/5.5, BAR_W, BAR_H/2);
-        StdDraw.text(width_window/2, 2.8*BAR_H,"DATA:  Number of Nodes : 123 ,Number of Edges : 3232 Dean & Elon (c) " );
+        StdDraw.rectangle(width_window/2, height_window*0.887, BAR_W, BAR_H/2);
+        StdDraw.text(width_window/2, height_window*0.887,"DATA:  Number of Nodes : 123 ,Number of Edges : 3232 Dean & Elon (c) " );
 
         ///////////////////////////////// graph GUI
 
