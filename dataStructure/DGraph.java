@@ -59,8 +59,19 @@ public class DGraph implements graph, Serializable {
 		this.connectivity.put(this.N +1 , (NodeData) n);
 		this.N ++;
 		changes++;
-		
+	}
+	public void addNode (double x , double y, int destination_key, double weight) {
+		// User must enter a node key as a destination to the newly added node
+		// That node key must be of an existing node in the graph
+		if (!this.connectivity.containsKey(destination_key)){
+			throw new RuntimeException("Desination key not found in graph");
+		}
+		NodeData n = new NodeData(this.connectivity.size());
+		n.setLocation(new Point3D(x,y,0));
+		n.setWeight(weight);
 
+		this.addNode(n);
+		this.connect(n.getKey(), destination_key, weight );
 	}
 
 	@Override
@@ -71,7 +82,7 @@ public class DGraph implements graph, Serializable {
 				}
 				node_data dest_node = connectivity.get(dest);
 				if (dest_node == null){
-					throw new IllegalArgumentException("Source key not found");
+					throw new IllegalArgumentException("Destination key not found");
 				}
 		Edge e = new Edge((NodeData) dest_node,w);
 		((NodeData) src_node).adjacency.put(dest_node.getKey() ,e );

@@ -46,7 +46,7 @@ public class gui {
         final int height_window = 800;
         StdDraw.setCanvasSize(width_window, height_window);
         StdDraw.setXscale(0, width_window);
-        StdDraw.setYscale(0,height_window);
+        StdDraw.setYscale(0, height_window);
 
         int BAR_W = width_window/2 -5;                          //Bar half Width
         int BAR_H =  30;                                        //Bar half height
@@ -58,32 +58,80 @@ public class gui {
         //Button 1
         int first_button_x = width_window/12;
         int height_of_button = height_window - 30;
-        StdDraw.text(first_button_x, height_of_button, "Button 1");
+
+        StdDraw.text(first_button_x, height_of_button, "Add Node");
 
         //Button 2
-        StdDraw.text(first_button_x*2.2  , height_of_button, "Button 2");
+        double second_button_x = first_button_x+90;
+        StdDraw.text( second_button_x , height_of_button, "Add Edge");
+
         //Button 3
-        StdDraw.text(first_button_x*3.4 , height_of_button, "Button 3");
+        double third_button_x = second_button_x +100;
+        StdDraw.text(third_button_x , height_of_button, "Remove Node");
         //Button 4
-        StdDraw.text(first_button_x*4.6 , height_of_button, "Button 4");
+        double fourth_button_x = third_button_x +120;
+        StdDraw.text(fourth_button_x , height_of_button, "Remove Edge");
+        //Button 5
+        double fifth_button_x = fourth_button_x +100;
+        StdDraw.text(fifth_button_x, height_of_button, "Connect");
+        //Button 6
+        double sixth_button_x = fifth_button_x+100;
+        StdDraw.text(sixth_button_x, height_of_button, "Exit");
+        //Button pixel array
+        double[] buttonArr = {first_button_x, second_button_x, third_button_x, fourth_button_x,fifth_button_x, sixth_button_x};
 
         //////////////////////////////////Status bar
         StdDraw.setPenColor(0,0,255);
-        StdDraw.rectangle(width_window/2, height_window*0.887, BAR_W, BAR_H/2);
-        StdDraw.text(width_window/2, height_window*0.887,"DATA:  Number of Nodes : 123 ,Number of Edges : 3232 Dean & Elon (c) " );
+        double heightStatusBar = height_window*0.887;
+        StdDraw.rectangle(width_window/2, heightStatusBar , BAR_W, BAR_H/2);
+        StdDraw.text(width_window/2, heightStatusBar,"DATA:  Number of Nodes : 123 ,Number of Edges : 3232 Dean & Elon (c) " );
 
-        ///////////////////////////////// graph GUI
-
-
-    }
-    private void displayGraph(DGraph graph, int height_graph_window, int width_graph_window){
-        // this function creates the graph in a window that has been initialized in init() function
-        for(int i = 0 ; i <graph.nodeSize(); i++){
+        boolean running = true;
+        while (running){
+            if (StdDraw.isMousePressed() && StdDraw.mouseX() - first_button_x <= 10 && StdDraw.mouseY() -height_of_button <=10 ){
+                System.out.println("Pressed button 1!!!!");
+                continue;
+            }
+            if (StdDraw.isMousePressed() && StdDraw.mouseX() - second_button_x <= 10 && StdDraw.mouseY() -height_of_button <=10){
+                System.out.println("Second button is pressed!!!");
+            }
+            if (StdDraw.isMousePressed() && StdDraw.mouseX() - third_button_x <= 10 && StdDraw.mouseY() -height_of_button <=10){
+                System.out.println("Third button is pressed!!!");
+            }
+            if (StdDraw.isMousePressed() && StdDraw.mouseX() - fourth_button_x <= 10 && StdDraw.mouseY() -height_of_button <=10){
+                System.out.println("Fourth button is pressed!!!");
+            }
 
         }
 
 
+
+
     }
+
+    /**
+     * Private method used by init. The method receives a graph, and the dimensions
+     * in which the graph is to be viewed within the window created in init()
+     * @param graph - graph to be showed
+     * @param height_graph_window - Height of graph area, within pixels created in init function
+     * @param width_graph_window - Width of graph area, within pixels created in init function
+     */
+    private void displayGraph(DGraph graph, int height_graph_window, int width_graph_window){
+        // this function creates the graph in a window that has been initialized in init() function
+        for(int i = 0 ; i <graph.nodeSize(); i++){
+            // for each Node, create that point in the graph.
+            double x = graph.connectivity.get(i).getLocation().x();
+            double y = graph.connectivity.get(i).getLocation().y();
+            StdDraw.point(x,y);
+        }
+    }
+
+
+
+
+
+
+
 
 
 

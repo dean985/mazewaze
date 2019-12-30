@@ -27,16 +27,7 @@ package utils;
  *
  ******************************************************************************/
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.FileDialog;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.MediaTracker;
-import java.awt.RenderingHints;
-import java.awt.Toolkit;
+import java.awt.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -67,13 +58,7 @@ import java.util.TreeSet;
 import java.util.NoSuchElementException;
 import javax.imageio.ImageIO;
 
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.KeyStroke;
+import javax.swing.*;
 
 /**
  *  The {@code StdDraw} class provides a basic capability for
@@ -714,14 +699,86 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 
 	// create the menu bar (changed to private)
 	private static JMenuBar createMenuBar() {
-		JMenuBar menuBar = new JMenuBar();
-		JMenu menu = new JMenu("File");
-		menuBar.add(menu);
-		JMenuItem menuItem1 = new JMenuItem(" Save...   ");
+		JMenuBar menuBar = new JMenuBar();							// All of the menu bar
+		JMenu menu = new JMenu("File");							// item on the menu bar
+		menuBar.add(menu);											// adding "menu" to the menu bar
+		JMenuItem menuItem1 = new JMenuItem(" Save...   ");		// Creating an item to be listed
 		menuItem1.addActionListener(std);
 		menuItem1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-		menu.add(menuItem1);
+		menu.add(menuItem1);										// Adding an item to a small menu
+
+		//Add sub-menu
+		JMenu Add = new JMenu("Add");
+		menuBar.add(Add);
+		JMenuItem addItem1 = new JMenuItem("Add Node");
+		addItem1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent actionEvent) {
+				double xInput = 0, yInput = 0, weight = 0;
+				int dest_input;
+
+				JPanel pane = new JPanel();
+				pane.setLayout(new GridLayout(0, 2, 2, 2));
+
+				JTextField xField = new JTextField(5);
+				JTextField yField = new JTextField(5);
+
+				pane.add(new JLabel("Enter x value for point of node"));
+				pane.add(xField);
+
+				pane.add(new JLabel("Enter y value for point of node"));
+				pane.add(yField);
+
+				int option = JOptionPane.showConfirmDialog(frame, pane, "Please fill all the fields", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+
+				if (option == JOptionPane.YES_OPTION) {
+
+					String xUser = xField.getText();
+					String yUser = yField.getText();
+
+					try {
+
+						xInput = Double.parseDouble(xUser);
+						yInput = Double.parseDouble(yUser);
+
+						pane = new JPanel();
+						pane.setLayout(new BoxLayout(pane, BoxLayout.PAGE_AXIS));
+
+						pane.add(new JLabel("x value: " + xInput));
+						pane.add(new JLabel("y value: " + yInput));
+
+						JOptionPane.showMessageDialog(frame, pane);
+
+
+
+					} catch (Exception e) {
+						JOptionPane.showMessageDialog(frame ,"Wrong Input");
+					}
+
+
+				}
+
+
+
+
+			}
+		});
+		Add.add(addItem1);
+		JMenuItem addItem2 = new JMenuItem("Add Edge");
+		addItem2.addActionListener(std);
+		Add.add(addItem2);
+		//Remove sub-menu
+		JMenu Remove = new JMenu("Remove");
+		menuBar.add(Remove);
+		JMenuItem removeItem1 = new JMenuItem("Remove Node");
+		Remove.add(removeItem1);
+		removeItem1.addActionListener(std);
+		JMenuItem removeItem2 = new JMenuItem("Remove Edge");
+		Remove.add(removeItem2);
+		removeItem2.addActionListener(std);
+		//
+
 		return menuBar;
 	}
 
@@ -1879,7 +1936,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 	 * @param args the command-line arguments
 	 */
 	public static void main(String[] args) {
-		StdDraw.square(0.2, 0.8, 0.1);
+		/*StdDraw.square(0.2, 0.8, 0.1);
 		StdDraw.filledSquare(0.8, 0.8, 0.2);
 		StdDraw.circle(0.8, 0.2, 0.2);
 
@@ -1898,8 +1955,10 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 		StdDraw.setPenColor(StdDraw.BLACK);
 		StdDraw.text(0.2, 0.5, "black text");
 		StdDraw.setPenColor(StdDraw.WHITE);
-		StdDraw.text(0.8, 0.8, "white text");
+		StdDraw.text(0.8, 0.8, "white text");*/
+
 	}
+
 
 }
 
