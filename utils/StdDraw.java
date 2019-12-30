@@ -769,7 +769,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 
 						JOptionPane.showMessageDialog(frame, pane);
 
-						graph.addNode(graph, xInput, yInput, dest_input,weight);
+						DGraph.addNode(graph, xInput, yInput, dest_input,weight);
 					} catch (Exception e) {
 						JOptionPane.showMessageDialog(frame ,"Wrong Input");
 					}
@@ -782,7 +782,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 			@Override
 			public void actionPerformed(ActionEvent actionEvent) {
 				// gets from the user src_key, dest_key, weight
-				int src_key = 0, src_dest = 0; double weight = 0;
+				int src_key = 0, dest_key = 0; double weight = 0;
 
 				JPanel pane = new JPanel();
 				pane.setLayout(new GridLayout(0, 2, 2, 2));
@@ -791,32 +791,40 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 				JTextField destField = new JTextField(5);
 				JTextField weightField = new JTextField((5));
 
-				pane.add(new JLabel("Enter x value for point of node"));
-				pane.add(xField);
+				pane.add(new JLabel("Enter source node's key  value for edge "));
+				pane.add(srcField);
 
-				pane.add(new JLabel("Enter y value for point of node"));
-				pane.add(yField);
+				pane.add(new JLabel("Enter destination node's key  value for edge "));
+				pane.add(destField);
+
+				pane.add(new JLabel("Enter weight value for edge "));
+				pane.add(weightField);
 
 				int option = JOptionPane.showConfirmDialog(frame, pane, "Please fill all the fields", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
 
 				if (option == JOptionPane.YES_OPTION) {
 
-					String xUser = xField.getText();
-					String yUser = yField.getText();
+					String srcUser = srcField.getText();
+					String destUser = destField.getText();
+					String weightUser = weightField.getText();
 
 					try {
 
-						xInput = Double.parseDouble(xUser);
-						yInput = Double.parseDouble(yUser);
+						src_key = Integer.parseInt(srcUser);
+						dest_key = Integer.parseInt(destUser);
+						weight = Double.parseDouble(weightUser);
 
 						pane = new JPanel();
 						pane.setLayout(new BoxLayout(pane, BoxLayout.PAGE_AXIS));
 
-						pane.add(new JLabel("x value: " + xInput));
-						pane.add(new JLabel("y value: " + yInput));
+						pane.add(new JLabel("Source key: " + src_key));
+						pane.add(new JLabel("Destination key: " + dest_key));
+						pane.add(new JLabel("Weight: "+ weight));
 
 						JOptionPane.showMessageDialog(frame, pane);
+						// Adding the edge to Graph
 
+						graph.connect(src_key, dest_key, weight);
 
 
 					} catch (Exception e) {
@@ -825,17 +833,94 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 				}
 			}
 		});
-		addItem2.addActionListener(std);
 		Add.add(addItem2);
+
 		//Remove sub-menu
 		JMenu Remove = new JMenu("Remove");
 		menuBar.add(Remove);
 		JMenuItem removeItem1 = new JMenuItem("Remove Node");
 		Remove.add(removeItem1);
-		removeItem1.addActionListener(std);
+		removeItem1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent actionEvent) {
+				int key = 0;
+
+				JPanel pane = new JPanel();
+				pane.setLayout(new GridLayout(0, 2, 2, 2));
+
+				JTextField keyField = new JTextField(5);
+
+				pane.add(new JLabel("Enter key value of node to remove"));
+				pane.add(keyField);
+
+				int option = JOptionPane.showConfirmDialog(frame, pane, "Please fill all the fields", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+
+				if (option == JOptionPane.YES_OPTION) {
+
+					String keyUser = keyField.getText();
+
+					try {
+
+						key = Integer.parseInt(keyUser);
+
+						pane = new JPanel();
+						pane.setLayout(new BoxLayout(pane, BoxLayout.PAGE_AXIS));
+
+						pane.add(new JLabel("Node key to be removed " + key));
+
+						JOptionPane.showMessageDialog(frame, pane);
+
+						graph.removeNode(key);
+					} catch (Exception e) {
+						JOptionPane.showMessageDialog(frame ,"Wrong Input");
+					}
+				}
+			}
+		});
 		JMenuItem removeItem2 = new JMenuItem("Remove Edge");
 		Remove.add(removeItem2);
-		removeItem2.addActionListener(std);
+		removeItem2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent actionEvent) {
+				int src = 0; int dest = 0;
+
+				JPanel pane = new JPanel();
+				pane.setLayout(new GridLayout(0, 2, 2, 2));
+
+				JTextField srcField = new JTextField(5);
+				JTextField destField = new JTextField(5);
+
+				pane.add(new JLabel("Enter source value of edge to remove"));
+				pane.add(srcField);
+				pane.add(new JLabel("Enter destination value of edge to remove"));
+				pane.add(destField);
+
+				int option = JOptionPane.showConfirmDialog(frame, pane, "Please fill all the fields", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+
+				if (option == JOptionPane.YES_OPTION) {
+
+					String destUser = destField.getText();
+					String srcUser = srcField.getText();
+
+					try {
+
+						src = Integer.parseInt(srcUser);
+						dest = Integer.parseInt(destUser);
+
+						pane = new JPanel();
+						pane.setLayout(new BoxLayout(pane, BoxLayout.PAGE_AXIS));
+
+						pane.add(new JLabel("Edge from source "+src+" to destination "+dest+" will be removed"));
+
+						JOptionPane.showMessageDialog(frame, pane);
+
+						graph.removeEdge(src,dest);
+					} catch (Exception e) {
+						JOptionPane.showMessageDialog(frame ,"Wrong Input");
+					}
+				}
+			}
+		});
 		//
 
 		return menuBar;
