@@ -1,4 +1,5 @@
-package utils;
+//package utils;
+//import dataStructure;
 
 //package stdDraw;
 // https://introcs.cs.princeton.edu/java/stdlib/StdDraw.java.html
@@ -465,6 +466,9 @@ import javax.swing.*;
  */
 public final class StdDraw implements ActionListener, MouseListener, MouseMotionListener, KeyListener {
 
+	public static DGraph graph = new DGraph(1);
+
+
 	/**
 	 *  The color black.
 	 */
@@ -723,6 +727,69 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 
 				JTextField xField = new JTextField(5);
 				JTextField yField = new JTextField(5);
+				JTextField weightField = new JTextField(5);
+				JTextField destField = new JTextField(5);
+
+
+				pane.add(new JLabel("Enter x value for point of node"));
+				pane.add(xField);
+
+				pane.add(new JLabel("Enter y value for point of node"));
+				pane.add(yField);
+
+				pane.add(new JLabel("Enter weight for node"));
+				pane.add(weightField);
+
+				pane.add(new JLabel("Enter destination node's key"));
+				pane.add(destField);
+
+				int option = JOptionPane.showConfirmDialog(frame, pane, "Please fill all the fields", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+
+				if (option == JOptionPane.YES_OPTION) {
+
+					String xUser = xField.getText();
+					String yUser = yField.getText();
+					String wUser = weightField.getText();
+					String dUser = weightField.getText();
+
+					try {
+
+						xInput = Double.parseDouble(xUser);
+						yInput = Double.parseDouble(yUser);
+						weight = Double.parseDouble(wUser);
+						dest_input = Integer.parseInt(dUser);
+
+						pane = new JPanel();
+						pane.setLayout(new BoxLayout(pane, BoxLayout.PAGE_AXIS));
+
+						pane.add(new JLabel("x value: " + xInput));
+						pane.add(new JLabel("y value: " + yInput));
+						pane.add(new JLabel("weight: "+ weight));
+						pane.add(new JLabel("destination: "+ dest_input));
+
+						JOptionPane.showMessageDialog(frame, pane);
+
+						graph.addNode(graph, xInput, yInput, dest_input,weight);
+					} catch (Exception e) {
+						JOptionPane.showMessageDialog(frame ,"Wrong Input");
+					}
+				}
+			}
+		});
+		Add.add(addItem1);
+		JMenuItem addItem2 = new JMenuItem("Add Edge");
+		addItem2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent actionEvent) {
+				// gets from the user src_key, dest_key, weight
+				int src_key = 0, src_dest = 0; double weight = 0;
+
+				JPanel pane = new JPanel();
+				pane.setLayout(new GridLayout(0, 2, 2, 2));
+
+				JTextField srcField = new JTextField(5);
+				JTextField destField = new JTextField(5);
+				JTextField weightField = new JTextField((5));
 
 				pane.add(new JLabel("Enter x value for point of node"));
 				pane.add(xField);
@@ -755,17 +822,9 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 					} catch (Exception e) {
 						JOptionPane.showMessageDialog(frame ,"Wrong Input");
 					}
-
-
 				}
-
-
-
-
 			}
 		});
-		Add.add(addItem1);
-		JMenuItem addItem2 = new JMenuItem("Add Edge");
 		addItem2.addActionListener(std);
 		Add.add(addItem2);
 		//Remove sub-menu
@@ -1930,6 +1989,41 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 
 
 
+	public static void initGraph_menuUP(){
+		final int width_window = 800;
+		final int height_window = 800;
+		StdDraw.setCanvasSize(width_window, height_window);
+		StdDraw.setXscale(0, width_window);
+		StdDraw.setYscale(0, height_window);
+
+		int BAR_W = width_window/2 -5;                          //Bar half Width
+		int BAR_H =  30;                                        //Bar half height
+
+
+
+	}
+
+	/**
+	 * Private method used by init. The method receives a graph, and the dimensions
+	 * in which the graph is to be viewed within the window created in init()
+	 * @param graph - graph to be showed
+	 * @param height_graph_window - Height of graph area, within pixels created in init function
+	 * @param width_graph_window - Width of graph area, within pixels created in init function
+	 */
+	private void displayGraph(DGraph graph, int height_graph_window, int width_graph_window){
+		// this function creates the graph in a window that has been initialized in init() function
+		for(int i = 0 ; i <graph.nodeSize(); i++){
+			// for each Node, create that point in the graph.
+			double x = graph.connectivity.get(i).getLocation().x();
+			double y = graph.connectivity.get(i).getLocation().y();
+			StdDraw.point(x,y);
+		}
+	}
+
+
+
+
+
 	/**
 	 * Test client.
 	 *
@@ -1956,7 +2050,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 		StdDraw.text(0.2, 0.5, "black text");
 		StdDraw.setPenColor(StdDraw.WHITE);
 		StdDraw.text(0.8, 0.8, "white text");*/
-
+		initGraph_menuUP();
 	}
 
 

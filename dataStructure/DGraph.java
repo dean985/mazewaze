@@ -60,18 +60,18 @@ public class DGraph implements graph, Serializable {
 		this.N ++;
 		changes++;
 	}
-	public void addNode (double x , double y, int destination_key, double weight) {
+	public static void addNode (DGraph graph, double x , double y, int destination_key, double weight) {
 		// User must enter a node key as a destination to the newly added node
 		// That node key must be of an existing node in the graph
-		if (!this.connectivity.containsKey(destination_key)){
+		if (!graph.connectivity.containsKey(destination_key)){
 			throw new RuntimeException("Desination key not found in graph");
 		}
-		NodeData n = new NodeData(this.connectivity.size());
+		NodeData n = new NodeData(graph.connectivity.size());
 		n.setLocation(new Point3D(x,y,0));
 		n.setWeight(weight);
 
-		this.addNode(n);
-		this.connect(n.getKey(), destination_key, weight );
+		graph.addNode(n);
+		graph.connect(n.getKey(), destination_key, weight );
 	}
 
 	@Override

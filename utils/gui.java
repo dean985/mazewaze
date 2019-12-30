@@ -1,9 +1,9 @@
-import utils.StdDraw;
+//import utils.StdDraw;
 
 public class gui {
 
     public static void main(String[] args) {
-        initGraph_menuUP();
+       // initGraph_menuUP();
     }
 
     public static void initGraph_menuDOWN(){
