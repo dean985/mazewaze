@@ -67,11 +67,11 @@ public class DGraph implements graph, Serializable {
 	public void connect(int src, int dest, double w) {
 		node_data src_node = connectivity.get(src);
 				if (src_node == null){
-					throw new IllegalArgumentException("Source key not found");
+					throw new IllegalArgumentException("Source key not found: " + src);
 				}
 				node_data dest_node = connectivity.get(dest);
 				if (dest_node == null){
-					throw new IllegalArgumentException("Source key not found");
+					throw new IllegalArgumentException("dest key not found: " +dest);
 				}
 		Edge e = new Edge((NodeData) dest_node,w);
 		((NodeData) src_node).adjacency.put(dest_node.getKey() ,e );

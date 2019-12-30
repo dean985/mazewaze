@@ -69,8 +69,20 @@ public class Graph_Algo implements graph_algorithms{
 
 	@Override
 	public double shortestPathDist(int src, int dest) {
-		// TODO Auto-generated method stub
-		return 0;
+
+	    NodeData [] nodeData = new NodeData[dGraph.getV().size()];
+
+        for (int i = 0; i <dGraph.getV().size(); i++) {
+
+            nodeData[i] = (NodeData) dGraph.getNode(i);
+        }
+        Dijkstra2 ds = new Dijkstra2(nodeData, src);
+        ds.computePaths();
+
+		if (dGraph.getNode(dest).getWeight() == Double.MAX_VALUE) {
+			throw new RuntimeException("the graph may not been connected");
+		}
+        return dGraph.getNode(dest).getWeight();
 	}
 
 	@Override
@@ -90,5 +102,6 @@ public class Graph_Algo implements graph_algorithms{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
 
 }
