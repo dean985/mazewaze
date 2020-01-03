@@ -1,4 +1,5 @@
 import java.util.Iterator;
+import java.util.LinkedList;
 /*
 class for the path finder algorithem
  */
@@ -50,18 +51,27 @@ public class Dijkstra2 {
 		}
 		System.out.println();
 	}
-	public String getPath(int v){
+	public LinkedList<node_data> getPath(int v,DGraph dGraph){
 		int t = v;
-		String ans = t + "";
+		LinkedList<node_data> ans = new LinkedList<node_data>();
+		ans.add(dGraph.connectivity.get(t));
 		while(t != source){
 			t = vertices[t].previous;
-			ans = t + "->" + ans;
+			ans.add(dGraph.connectivity.get(t));
 		}
-		return ans;
+		LinkedList<node_data> ans2 = new LinkedList<node_data>();
+
+		for(int i = 0; i < ans.size();i++)
+		{
+				ans2.add(ans.get(ans.size() - i-1));
+		}
+		return ans2;
 	}
+
+	//Todo: delete
 	public void printPaths(){
 		for (NodeData v : vertices){
-			System.out.println("price of " + v.getKey()+" = " + v.getWeight() + ", path: " +  getPath(v.getKey()));
+			//System.out.println("price of " + v.getKey()+" = " + v.getWeight() + ", path: " +  getPath(v.getKey()));
 		}
 		System.out.println();
 	}
