@@ -149,17 +149,17 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
         if(shortest_path) {
             p.setColor(Color.BLACK);
             p.drawString("Click on the Source node, then click on the Destination node:", 40, 80);
-            p.drawString("The Shortest path between them will be marked with cyan", 40, 100);
+            p.drawString("The Shortest path between them will be marked with RED", 40, 100);
 
             if(targets.size() == 2) {
                 algo.init(Graph);
                 System.out.println(targets.get(0).getKey()+"  , "+targets.get(1).getKey());
-//                ArrayList<node_data> SP_ans = new ArrayList<node_data>(algo.shortestPath(targets.get(0).getKey(), targets.get(1).getKey()));
-                ArrayList<node_data> SP_ans = (ArrayList<node_data>)algo.shortestPath(targets.get(0).getKey(), targets.get(1).getKey());
+                ArrayList<node_data> SP_ans = new ArrayList<node_data>(algo.shortestPath(targets.get(0).getKey(), targets.get(1).getKey()));
+//                ArrayList<node_data> SP_ans = (ArrayList<node_data>)algo.shortestPath(targets.get(0).getKey(), targets.get(1).getKey());
 //                List<node_data> SP_ans = algo.shortestPath(targets.get(0).getKey(), targets.get(1).getKey());
 //                ArrayList<node_data> SP_ans = new ArrayList<>();
 //                SP_ans.addAll(algo.shortestPath(targets.get(0).getKey(), targets.get(1).getKey()));
-                p.setColor(Color.CYAN);
+                p.setColor(Color.RED);
 
                 for(int i = 0; SP_ans != null && i<SP_ans.size()-1 ; i++) {
                     node_data n0 = SP_ans.get(i);
@@ -172,7 +172,7 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
 
                 double sum = algo.shortestPathDist(targets.get(0).getKey(), targets.get(1).getKey());
                 p.setColor(Color.BLACK);
-                p.drawString("length of the shortest path between "+targets.get(0).getKey()+" and "+targets.get(1).getKey()+" is: "+String.format("%.1f", sum), 100, 120);
+                p.drawString("length of the shortest path between "+targets.get(0).getKey()+" and "+targets.get(1).getKey()+" is: "+String.format("%.1f", sum), 200, 200);
                 shortest_path = false;
             }
         }
@@ -184,13 +184,14 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
         }
         if(tsp) {
             p.setColor(Color.BLACK);
-            p.drawString("Click on the nodes, when you finish click on the orange button ", 50, 100);
-            p.drawString("Answer is in gray", 50, 120);
+            p.setFont((new Font("Arial", Font.BOLD, 15)));
+            p.drawString("Click on the nodes, when you finish click on the orange button , answer in gray", 40, 525);
+            //p.drawString("Answer is in gray", 50, 120);
             /*if(!targets.isEmpty()) {
                 p.drawString("So far you chose these nodes: "+targets, 100, 120);
             }*/
             if (targets.size() == 2){
-                p.drawString("You chose: "+ targets, 80, 100);
+                p.drawString("You chose: "+ targets, 40, 700);
             }
             //tsp button
             p.setColor(Color.ORANGE);
@@ -395,20 +396,20 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
 
         g1.connect(0,1,0.5);*/
         //NodeData n0 = new NodeData(0,2, new Point3D(130,130,0));
-        NodeData n1 = new NodeData(1,2, new Point3D(200,300,0));
-        NodeData n2 = new NodeData(2,2, new Point3D(150,260,0));
-        NodeData n3 = new NodeData(3,2, new Point3D(175,210,0));
-        NodeData n4 = new NodeData(4,2, new Point3D(125,310,0));
+        NodeData n1 = new NodeData(0,2, new Point3D(200,300,0));
+        NodeData n2 = new NodeData(1,2, new Point3D(150,260,0));
+        NodeData n3 = new NodeData(2,2, new Point3D(175,210,0));
+        NodeData n4 = new NodeData(3,2, new Point3D(125,310,0));
         //g1.addNode(n0);
         g1.addNode(n1);
         g1.addNode(n2);
         g1.addNode(n3);
         g1.addNode(n4);
 
-        g1.connect(1,3,1);
-        g1.connect(3,4,1);
-        g1.connect(4,2,1);
-        g1.connect(2,1,1);
+        g1.connect(0,2,1);
+        g1.connect(2,3,1);
+        g1.connect(3,1,1);
+        g1.connect(1,0,1);
         gui_graph draft = new gui_graph(g1);
     }
 
