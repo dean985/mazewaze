@@ -4,6 +4,8 @@ import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 import java.awt.*;
 import java.awt.event.*;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -14,8 +16,8 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
     ///////////////////////////////////////////////////////////////////
 
     private DGraph Graph;
-    private Graph_Algo algo;////////////////////
-    private boolean custom_graph = false;       // making your own graph by clicking to make new nodes
+    private Graph_Algo algo;
+    private boolean custom_graph = false;       // for user drawing mode
     private final int size_node = 5;
 
     private boolean tsp = false;
@@ -23,9 +25,9 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
 
     private boolean connected = false;
     private boolean is_connected_on = false;
-    private boolean shortest_path_on = false;
+    private boolean shortest_path = false;
 
-    private ArrayList<node_data> targets = new ArrayList<node_data>();
+    private ArrayList<node_data> targets = new ArrayList<node_data>();          // for input of nodes from user
     ///////////////////////////////////////////////////////////////////
     /////////////////////////// Constructors //////////////////////////
     ///////////////////////////////////////////////////////////////////
@@ -37,7 +39,7 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
 
     public gui_graph(graph g){
         initGraph();
-        //this.algorithm =
+        algo.init(g);
         this.Graph =(DGraph) g;
     }
     ///////////////////////////////////////////////////////////////////
@@ -45,7 +47,7 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
     ///////////////////////////////////////////////////////////////////
     public void initGraph(){
         Graph = new DGraph();
-        //algo = new Graph_Algo(Graph);
+        algo = new Graph_Algo();
 
         final int width_window = 800;
         final int height_window = 600;
@@ -100,16 +102,16 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
     @Override
     public void paint(Graphics p) {
         super.paint(p);
-
-        Font font = p.getFont().deriveFont((float) 20.5);
-        p.setFont(font);
-
+        p.setFont((new Font("Arial", Font.BOLD, 18)));
+//        Font font = p.getFont().deriveFont((float) 20.5);
+//        p.setFont(font);
+        // paint each node in the graph
         for (node_data n: Graph.getV()){
             p.setColor(Color.BLACK);
             p.fillOval(n.getLocation().ix()- (size_node/2), n.getLocation().iy() - (size_node/2), size_node, size_node);
             p.drawString(""+n.getKey(), n.getLocation().ix(), n.getLocation().iy() +13);
             for( edge_data edge : Graph.getE(n.getKey())){
-                // Draw edges
+                // paint edges of each node in the graph
                 p.setColor(Color.BLUE);
                 node_data n0 = Graph.getNode(edge.getSrc());
                 node_data n1 = Graph.getNode(edge.getDest());
@@ -120,8 +122,10 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
 
                 p.drawLine(x0, y0, x1, y1);
 
-                p.drawString(""+ edge.getWeight(), (x0 + (4 * x1)) / 5,
-                        (y0 + (4 * y1)) / 5);
+                NumberFormat formatter = new DecimalFormat("#0.0");         // format strings to be with only one digit after the decimal point
+
+                p.drawString(""+ formatter.format(edge.getWeight()), (x0 + (4*x1)) / 5,
+                        (y0 + (4 * y1))/5);
                 p.setColor(Color.YELLOW);
                 p.fillRect(  (7*x1 +x0)/8 - size_node/2 , (7*y1 +y0)/8 -size_node/2, size_node, size_node   );
 
@@ -134,24 +138,26 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
             p.setColor(Color.BLACK);
             p.drawString("graph is connected", 250, 80);
             is_connected_on = false;
-        } else if(is_connected_on && !connected) {
+        }
+        else if(is_connected_on && !connected) {
             p.setColor(Color.BLACK);
             p.drawString("graph is not connected", 250, 80);
             is_connected_on = false;
         }
 
-        if(shortest_path_on) {
+        if(shortest_path) {
             p.setColor(Color.BLACK);
-            p.drawString("Click on the Source node, then click on the Destination node:", 100, 80);
-            p.drawString("The Shortest path between them will be marked with cyan", 100, 100);
-            if(targets.size()==2) {
+            p.drawString("Click on the Source node, then click on the Destination node:", 40, 80);
+            p.drawString("The Shortest path between them will be marked with cyan", 40, 100);
+
+            if(targets.size() == 2) {
                 algo.init(Graph);
-                ArrayList<node_data> ans = (ArrayList<node_data>)algo.shortestPath(targets.get(0).getKey(), targets.get(1).getKey());
+                ArrayList<node_data> SP_ans = (ArrayList<node_data>)algo.shortestPath(targets.get(0).getKey(), targets.get(1).getKey());
                 p.setColor(Color.CYAN);
 
-                for(int i = 0; ans != null && i<ans.size()-1 ; i++) {
-                    node_data n0 = ans.get(i);
-                    node_data n1 = ans.get(i+1);
+                for(int i = 0; SP_ans != null && i<SP_ans.size()-1 ; i++) {
+                    node_data n0 = SP_ans.get(i);
+                    node_data n1 = SP_ans.get(i+1);
                     Point3D p0 = n0.getLocation();
                     Point3D p1 = n1.getLocation();
 
@@ -161,7 +167,7 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
                 double sum = algo.shortestPathDist(targets.get(0).getKey(), targets.get(1).getKey());
                 p.setColor(Color.BLACK);
                 p.drawString("length of the shortest path between "+targets.get(0).getKey()+" and "+targets.get(1).getKey()+" is: "+String.format("%.1f", sum), 100, 120);
-                shortest_path_on = false;
+                shortest_path = false;
             }
         }
 
@@ -234,11 +240,15 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
             loader.setVisible(true);
             String filename = loader.getFile();     //filename
             String path = loader.getDirectory();    //path of the created file
-//            if(filename!=null) {              // loading graph
-//                algo.init(path + filename);
-////                Graph = algo.copy();
-//                repaint();
-//            }
+
+
+            if(filename != null) {              // loading graph
+                clearData();
+                algo.init(path + filename);
+                Graph = (DGraph) algo.copy();
+
+                repaint();
+            }
 
         }else if (str.equals("Custom Graph")){
             this.clearData();
@@ -253,9 +263,11 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
             algo.init(Graph);
             connected = algo.isConnected();
             repaint();
+
+
         } else if(str.equals("Shortest Path")) {
             this.clearData();
-            shortest_path_on = true;
+            shortest_path = true;
             repaint();
         } else if(str.equals("TSP")) {
             clearData();
@@ -271,7 +283,7 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
         connected = false;
         tsp_rec = false;
         custom_graph = false;
-        shortest_path_on = false;
+        shortest_path = false;
 
         targets.clear();
     }
@@ -287,12 +299,13 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
         int x = e.getX();
         int y = e.getY();
 
+
+
         if(tsp && x>50 && x<80 && y>130 && y<160) {
             tsp_rec = true;
             repaint();
+
         }
-
-
 
         node_data user_node = null;
         Point3D point_temp = new Point3D(x,y);
@@ -327,8 +340,8 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
             double w;
             try {
                 w = Double.parseDouble(JOptionPane.showInputDialog("Enter weight for the edge "+begin.getKey()+"-->"+end.getKey()+":"));
-            } catch (Exception e1) {
-                w = Math.random()*50;
+            } catch (Exception e1) {        // if input isn't a double, just choose a double for user in range [0,30)
+                w = Math.random()*30;
             }
             Graph.connect(begin.getKey(), end.getKey(), w);
             targets.clear();
@@ -368,13 +381,29 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
 
     public static void main(String[] args) {
         DGraph g1 = new DGraph();
-        NodeData n1 = new NodeData(0, 0, new Point3D(200,160,0));
+       /* NodeData n1 = new NodeData(0, 0, new Point3D(200,160,0));
         NodeData n2 = new NodeData(1, 0, new Point3D(300,300,0));
 
         g1.addNode(n1);
         g1.addNode(n2);
 
-        g1.connect(0,1,0.5);
+        g1.connect(0,1,0.5);*/
+        NodeData n0 = new NodeData(0,2, new Point3D(250,500,0));
+        NodeData n1 = new NodeData(1,2, new Point3D(400,700,0));
+        NodeData n2 = new NodeData(2,2, new Point3D(300,200,0));
+        NodeData n3 = new NodeData(3,2, new Point3D(400,300,0));
+        NodeData n4 = new NodeData(4,2, new Point3D(200,750,0));
+        g1.addNode(n0);
+        g1.addNode(n1);
+        g1.addNode(n2);
+        g1.addNode(n3);
+        g1.addNode(n4);
+
+        g1.connect(1,3,1);
+        g1.connect(3,4,1);
+        g1.connect(3,0,1);
+        g1.connect(4,2,1);
+        g1.connect(2,1,1);
         gui_graph draft = new gui_graph(g1);
     }
 
