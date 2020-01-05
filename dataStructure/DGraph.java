@@ -114,12 +114,12 @@ public class DGraph implements graph, Serializable {
 			throw new IllegalArgumentException("Source key not found");
 		}
 		if (this.connectivity.get(dest) == null){
-			throw new IllegalArgumentException("dest key not found: " +dest);
+			throw new IllegalArgumentException("dest key not found: " + dest);
 		}
 		Edge e = new Edge (src, dest, w);
 		node_data destNode = this.connectivity.get(dest);
 		node_data srcNode = this.connectivity.get(src);
-		((NodeData)srcNode).adjacency.put(src, e);
+		((NodeData)srcNode).adjacency.put(dest, e);
 		this.E++;
 		changes++;
 	}
