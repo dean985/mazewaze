@@ -1,7 +1,10 @@
+
+
 import java.io.Serializable;
 
 public class Edge implements edge_data, Serializable {
-    NodeData node;              // Destination Node
+    int dest;              // Destination Node
+    int src;
     double weight;
     String info;
     int tag;
@@ -9,12 +12,20 @@ public class Edge implements edge_data, Serializable {
     ///////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////Constructor/////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////////
-    public Edge(NodeData node, double weight){
-        this.node = node;
-            this.weight = Math.abs(weight);
-
+//    public Edge(NodeData node, double weight){
+//        this.node = node;
+//            this.weight = Math.abs(weight);
+//
+//    }
+    public Edge (int src, int dest){
+        this.dest = dest;
+        this.src = src;
     }
-
+    public Edge (int src, int dest, double weight){
+        this.dest = dest;
+        this.src = src;
+        this.weight = Math.abs(weight);
+    }
 
     ///////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////Getters and Setters/////////////////////////////
@@ -26,7 +37,8 @@ public class Edge implements edge_data, Serializable {
      */
     @Override
     public int getSrc() {
-        return this.node.previous;
+
+        return this.src;
     }
 
     /**
@@ -36,7 +48,8 @@ public class Edge implements edge_data, Serializable {
      */
     @Override
     public int getDest() {
-        return this.node.getKey();
+
+        return this.dest;
     }
 
     /**
@@ -90,10 +103,11 @@ public class Edge implements edge_data, Serializable {
     }
 
     public void setDest(NodeData dest) {
-        this.node = dest;
+
+        this.dest = dest.getKey();
     }
 
     public void setSrc(NodeData src) {
-        this.node.previous = src.getKey();
+        this.src = src.getKey();
     }
 }

@@ -1,4 +1,5 @@
-package utils;
+//package utils;
+//import dataStructure;
 
 //package stdDraw;
 // https://introcs.cs.princeton.edu/java/stdlib/StdDraw.java.html
@@ -27,16 +28,7 @@ package utils;
  *
  ******************************************************************************/
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.FileDialog;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.MediaTracker;
-import java.awt.RenderingHints;
-import java.awt.Toolkit;
+import java.awt.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -67,13 +59,8 @@ import java.util.TreeSet;
 import java.util.NoSuchElementException;
 import javax.imageio.ImageIO;
 
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.KeyStroke;
+import javax.swing.*;
+import javax.swing.border.BevelBorder;
 
 /**
  *  The {@code StdDraw} class provides a basic capability for
@@ -480,6 +467,9 @@ import javax.swing.KeyStroke;
  */
 public final class StdDraw implements ActionListener, MouseListener, MouseMotionListener, KeyListener {
 
+	public static DGraph graph = new DGraph(0);
+
+
 	/**
 	 *  The color black.
 	 */
@@ -714,14 +704,16 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 
 	// create the menu bar (changed to private)
 	private static JMenuBar createMenuBar() {
-		JMenuBar menuBar = new JMenuBar();
-		JMenu menu = new JMenu("File");
-		menuBar.add(menu);
-		JMenuItem menuItem1 = new JMenuItem(" Save...   ");
+		JMenuBar menuBar = new JMenuBar();							// All of the menu bar
+		JMenu menu = new JMenu("File");							// item on the menu bar
+		menuBar.add(menu);											// adding "menu" to the menu bar
+		JMenuItem menuItem1 = new JMenuItem(" Save...   ");		// Creating an item to be listed
 		menuItem1.addActionListener(std);
 		menuItem1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-		menu.add(menuItem1);
+		menu.add(menuItem1);										// Adding an item to a small menu
+
+
 		return menuBar;
 	}
 
@@ -1873,13 +1865,54 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 
 
 
+	public static void initGraph_menuUP(){
+		final int width_window = 800;
+		final int height_window = 800;
+		StdDraw.setCanvasSize(width_window, height_window);
+		StdDraw.setXscale(0, width_window);
+		StdDraw.setYscale(0, height_window);
+
+
+		graph.addNode(33,44, 1, 1.2);
+		//g.addNode(400,300, 2, 1.2);
+		displayGraph(graph);
+
+
+	}
+
+	/**
+	 * Private method used by init. The method receives a graph, and the dimensions
+	 * in which the graph is to be viewed within the window created in init()
+	 * @param input_graph - graph to be showed
+	 */
+	private static void displayGraph(DGraph input_graph){
+		// this function creates the graph in a window that has been initialized in init() function
+		for(int i = 1 ; i <input_graph.nodeSize()  ; i++){
+			// for each Node, create that point in the graph.
+			double x0 = input_graph.connectivity.get(i).getLocation().x();
+			double y0 = input_graph.connectivity.get(i).getLocation().y();
+			StdDraw.setPenColor(100,0,100);
+			StdDraw.point(x0,y0);
+
+			/*//Edges
+			for (int j = 0; j<((NodeData)input_graph.connectivity.get(i)).adjacency.size(); j++){
+				int keyDest = ((NodeData)input_graph.connectivity.get(i)).adjacency.get(j).getDest();
+				double x1 = ((NodeData)input_graph.connectivity.get(keyDest)).getLocation().x();
+				double y1 = ((NodeData)input_graph.connectivity.get(keyDest)).getLocation().y();
+				StdDraw.line(x0,y0,x1,y1);
+			}*/
+
+		}
+	}
+
+
 	/**
 	 * Test client.
 	 *
 	 * @param args the command-line arguments
 	 */
 	public static void main(String[] args) {
-		StdDraw.square(0.2, 0.8, 0.1);
+		/*StdDraw.square(0.2, 0.8, 0.1);
 		StdDraw.filledSquare(0.8, 0.8, 0.2);
 		StdDraw.circle(0.8, 0.2, 0.2);
 
@@ -1898,8 +1931,10 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 		StdDraw.setPenColor(StdDraw.BLACK);
 		StdDraw.text(0.2, 0.5, "black text");
 		StdDraw.setPenColor(StdDraw.WHITE);
-		StdDraw.text(0.8, 0.8, "white text");
+		StdDraw.text(0.8, 0.8, "white text");*/
+		initGraph_menuUP();
 	}
+
 
 }
 
