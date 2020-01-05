@@ -1,7 +1,6 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.platform.engine.support.hierarchical.Node;
 
 import java.util.Collection;
 
@@ -14,6 +13,18 @@ class DGraphTest {
 
     }
     @Test
+    void getMC() {
+        int current = graph.getMC();
+        Assertions.assertEquals(current, graph.getMC());
+        graph.connect(0,1,1);
+        node_data n = new NodeData(6);
+        graph.addNode(n);
+        Assertions.assertEquals(current+2, graph.getMC());
+        graph.removeNode(6);
+        Assertions.assertEquals(current+ 3,graph.getMC());
+    }
+
+    @Test
     void getNode()
     {
         Assertions.assertEquals(graph.getNode(1), graph.connectivity.get(1));
@@ -24,6 +35,7 @@ class DGraphTest {
     void getEdge() {
         graph.connect(1,4 , 4.5);
         Assertions.assertEquals(((Edge)graph.getEdge(1,4)).weight, 4.5 );
+        graph.removeEdge(1,4);
     }
 
     @Test
@@ -32,6 +44,8 @@ class DGraphTest {
         node_data n = new NodeData(6);
         graph.addNode(n);
         Assertions.assertEquals(6, graph.nodeSize());
+
+        graph.removeNode(6);
     }
 
     @Test
@@ -39,8 +53,9 @@ class DGraphTest {
         graph.connect(0, 2, 2.5);
         NodeData n1 = (NodeData) graph.connectivity.get(0);
         Assertions.assertNotNull(n1.getEdgesByKey(2));
-        Assertions.assertNull(n1.getEdgesByKey(1));
-        Assertions.assertEquals(graph.connectivity.get(2), n1.getEdgesByKey(2).node);
+        Assertions.assertNull(n1.getEdgesByKey(10));
+        Assertions.assertEquals(graph.connectivity.get(2), n1.getEdgesByKey(2).node, "Third");
+        graph.removeEdge(0, 2);
     }
 
     @Test
@@ -73,6 +88,8 @@ class DGraphTest {
 
         Assertions.assertNotNull(graph.connectivity.get(1));
         Assertions.assertNotNull((((NodeData)graph.connectivity.get(2)).getEdgesByKey(1)));
+        NodeData n = new NodeData(0, 0);
+        graph.addNode(n);
 
 
 
@@ -87,6 +104,7 @@ class DGraphTest {
         graph.removeEdge(2,0);
         Assertions.assertNull(((NodeData)graph.connectivity.get(2)).getEdgesByKey(0));
         Assertions.assertNotNull(graph.connectivity.get(0));
+        graph.connect(2, 0, 2.5);
 
     }
 
@@ -97,21 +115,12 @@ class DGraphTest {
 
     @Test
     void edgeSize() {
+        int edges = graph.edgeSize();
         graph.connect(0,1,1);
         graph.connect(1,2,2);
         graph.connect(3,4,2);
-        Assertions.assertEquals(3, graph.edgeSize());
+        Assertions.assertEquals(3,  graph.edgeSize()- edges);
     }
 
-    @Test
-    void getMC() {
-        Assertions.assertEquals(0, graph.getMC());
-        graph.connect(0,1,1);
-        node_data n = new NodeData(6);
-        graph.addNode(n);
-        Assertions.assertEquals(2, graph.getMC());
-        graph.removeNode(6);
-        Assertions.assertEquals(3,graph.getMC());
 
-    }
 }

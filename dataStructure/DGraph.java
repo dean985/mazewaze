@@ -1,4 +1,3 @@
-
 import java.io.Serializable;
 import java.util.*;
 
@@ -18,6 +17,8 @@ public class DGraph implements graph, Serializable {
 	///////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////Constructor/////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////
+
+	public DGraph(){};
 
 	// Initializing an graph with n nodes and no connections.
 	public DGraph(int n){
@@ -55,23 +56,29 @@ public class DGraph implements graph, Serializable {
 	@Override
 	public void addNode(node_data n) {
 		if( this.connectivity.get(n.getKey()) != null)
-			throw new IllegalArgumentException("the key is already exist");
+			throw new IllegalArgumentException("the key already exists");
 		this.connectivity.put(this.N +1 , (NodeData) n);
 		this.N ++;
 		changes++;
 	}
-	public static void addNode (DGraph graph, double x , double y, int destination_key, double weight) {
+
+	public void addNode (double x , double y, int destination_key, double weight) {
 		// User must enter a node key as a destination to the newly added node
 		// That node key must be of an existing node in the graph
-		if (!graph.connectivity.containsKey(destination_key)){
-			throw new RuntimeException("Desination key not found in graph");
+		if (!this.connectivity.containsKey(destination_key)){
+			//Adds a node without connections
+			Point3D p = new Point3D(x,y,0);
+			NodeData n1 = new NodeData(this.connectivity.size(), weight, p);
+			this.addNode(n1);
+			return;
+
 		}
-		NodeData n = new NodeData(graph.connectivity.size());
+		NodeData n = new NodeData(this.connectivity.size());
 		n.setLocation(new Point3D(x,y,0));
 		n.setWeight(weight);
 
-		graph.addNode(n);
-		graph.connect(n.getKey(), destination_key, weight );
+		this.addNode(n);
+		this.connect(n.getKey(), destination_key, weight );
 	}
 
 	@Override
@@ -130,6 +137,14 @@ public class DGraph implements graph, Serializable {
 			return er;
 		}
 		return null;
+	}
+
+	public void clearGraph(){
+		int i = 0;
+		while (this.connectivity.size() != 0){
+			this.removeNode(i);
+			i++;
+		}
 	}
 
 	@Override
