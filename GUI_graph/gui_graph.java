@@ -1,22 +1,21 @@
 //import Point3D;
 import javax.swing.*;
+import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-public class gui_graph extends JFrame implements  MenuListener,ActionListener, MouseListener {
+public class gui_graph extends JFrame implements  MenuListener, ActionListener, MouseListener {
     ///////////////////////////////////////////////////////////////////
     /////////////////////////// FIELDS ////////////////////////////////
     ///////////////////////////////////////////////////////////////////
 
-    private graph Graph;
+    private DGraph Graph;
     private Graph_Algo algo;////////////////////
-    private boolean custum_graph = false;       // making your own graph by clicking to make new nodes
+    private boolean custom_graph = false;       // making your own graph by clicking to make new nodes
     private final int size_node = 5;
 
     private boolean tsp = false;
@@ -39,7 +38,7 @@ public class gui_graph extends JFrame implements  MenuListener,ActionListener, M
     public gui_graph(graph g){
         initGraph();
         //this.algorithm =
-        this.Graph = g;
+        this.Graph =(DGraph) g;
     }
     ///////////////////////////////////////////////////////////////////
     /////////////////////////// METHODS ///////////////////////////////
@@ -49,9 +48,10 @@ public class gui_graph extends JFrame implements  MenuListener,ActionListener, M
         //algo = new Graph_Algo(Graph);
 
         final int width_window = 800;
-        final int height_window = 800;
+        final int height_window = 600;
 
         this.setSize(width_window, height_window);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);        // closes the program when clicking on close
 
         MenuBar menuBar = new MenuBar();
 
@@ -70,6 +70,11 @@ public class gui_graph extends JFrame implements  MenuListener,ActionListener, M
         MenuItem item2 = new MenuItem("Save Graph");
         item2.addActionListener(this);
 
+        MenuItem item6 = new MenuItem("Custom Graph");
+        item6.addActionListener(this);
+
+
+
         // Algorithms
         MenuItem item3 = new MenuItem("Is Connected");
         item3.addActionListener(this);
@@ -82,57 +87,47 @@ public class gui_graph extends JFrame implements  MenuListener,ActionListener, M
 
         menu.add(item1);
         menu.add(item2);
+        menu.add(item6);
         menu_algo.add(item3);
         menu_algo.add(item4);
         menu_algo.add(item5);
 
         setVisible(true);
-//        this.addMouseListener(this);
-//        this.addMouseMotionListener(this);
+        this.addMouseListener(this);
+
 
     }
     @Override
     public void paint(Graphics p) {
         super.paint(p);
-        Font font = p.getFont().deriveFont((float) 16.5);
+        Font font = p.getFont().deriveFont((float) 20.5);
         p.setFont(font);
 
-        Collection<node_data> c1 = Graph.getV();            // collection of the nodes
-        Iterator<node_data> nodeIter = c1.iterator();
-
-        while(nodeIter.hasNext()) {
-            node_data n = nodeIter.next();
-            Point3D point = n.getLocation();
-
-            p.setColor(Color.BLUE);
-            p.fillOval(point.ix() - size_node, point.iy() - size_node, 2 * size_node, 2 * size_node);
-            p.drawString(n.getKey()+"", point.ix() - size_node, point.iy() - size_node-2);
-
-
-            Collection<edge_data> c2 = Graph.getE(n.getKey()); // collection of the edges
-            Iterator<edge_data> edgeIter = c2.iterator();
-            p.setColor(Color.YELLOW);
-            // painting the graph by the iterating over the edges
-            while(edgeIter.hasNext()) {
-                edge_data e1 = edgeIter.next();
-                //get p1->p2 of that e1
-                Point3D p1 = Graph.getNode(e1.getSrc()).getLocation();
-                Point3D p2 = Graph.getNode(e1.getDest()).getLocation();
-                //Draw the edge
-                p.drawLine(p1.ix(), p1.iy(), p2.ix(), p2.iy());
-
+        for (node_data n: Graph.getV()){
+            p.setColor(Color.BLACK);
+            p.fillOval(n.getLocation().ix()- (size_node/2), n.getLocation().iy() - (size_node/2), size_node, size_node);
+            p.drawString(""+n.getKey(), n.getLocation().ix(), n.getLocation().iy() +13);
+            for( edge_data edge : Graph.getE(n.getKey())){
+                // Draw edges
                 p.setColor(Color.BLUE);
-                // draw node source
-                int x = (int)(0.8*p2.x() + 0.2*p1.x());
-                int y = (int)(0.8*p2.y() + 0.2*p1.y());
-                p.fillOval(x - size_node , y - size_node , 2 * size_node, 2 * size_node);
-                // draw node destination
-                x = (int)(0.7*p2.x() + 0.3*p1.x());
-                y = (int)(0.7*p2.y() + 0.3*p1.y()-4);
-                p.setColor(Color.GREEN);
-                p.drawString(String.format("%.1f", e1.getWeight()), x, y);
+                node_data n0 = Graph.getNode(edge.getSrc());
+                node_data n1 = Graph.getNode(edge.getDest());
+                int x0 =n0.getLocation().ix();
+                int y0 = n0.getLocation().iy();
+                int x1 = n1.getLocation().ix();
+                int y1 = n1.getLocation().iy();
+
+                p.drawLine(x0, y0, x1, y1);
+
+                p.drawString(""+ edge.getWeight(), (x0 + (4 * x1)) / 5,
+                        (y0 + (4 * y1)) / 5);
+                p.setColor(Color.YELLOW);
+                p.fillRect(  (7*x1 +x0)/8 - size_node/2 , (7*y1 +y0)/8 -size_node/2, size_node, size_node   );
+
+
             }
         }
+
 
         if(is_connected_on && connected) {
             p.setColor(Color.BLACK);
@@ -169,6 +164,12 @@ public class gui_graph extends JFrame implements  MenuListener,ActionListener, M
             }
         }
 
+        if (custom_graph){
+            p.setColor(Color.BLUE);
+            p.drawString("Start graphing!", 40, 80);
+            p.drawString("Click to add a new node. Clicking on two nodes will create an edge ", 40,110 );
+
+        }
         if(tsp) {
             p.setColor(Color.BLACK);
             p.drawString("Click on nodes as you like ,when you finish click on the orange button on the left.", 120, 100);
@@ -212,12 +213,6 @@ public class gui_graph extends JFrame implements  MenuListener,ActionListener, M
                 tsp = false;
             }
         }
-
-        if(custum_graph) {
-            p.setColor(Color.BLACK);
-            p.drawString("Make your owm Directed Graph! ", 100, 80);
-            p.drawString("Click anywhere to deploy nodes, and click on 2 nodes to make an edge between them. ", 100, 100);
-        }
     }
 
     @Override
@@ -245,7 +240,14 @@ public class gui_graph extends JFrame implements  MenuListener,ActionListener, M
 //                repaint();
 //            }
 
-        } else if(str.equals("Is Connected")) {
+        }else if (str.equals("Custom Graph")){
+            this.clearData();
+            Graph = new DGraph();
+            custom_graph= true;
+            repaint();
+        }
+
+        else if(str.equals("Is Connected")) {
             this.clearData();
             is_connected_on = true;
             algo.init(Graph);
@@ -259,26 +261,119 @@ public class gui_graph extends JFrame implements  MenuListener,ActionListener, M
             clearData();
             tsp = true;
             repaint();
-        } else if(str.equals("Nem Custum DGraph")) {
-            clearData();
-            Graph = new DGraph();
-            custum_graph = true;
-            repaint();
         }
 
     }
 
     public void clearData() {
-
         tsp = false;
         is_connected_on = false;
-
         connected = false;
         tsp_rec = false;
-        custum_graph = false;
+        custom_graph = false;
         shortest_path_on = false;
-        shortest_path_on = false;
+
         targets.clear();
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        //Now x and y are the coordinates of the mouse click
+        int x = e.getX();
+        int y = e.getY();
+
+        if(tsp && x>50 && x<80 && y>130 && y<160) {
+            tsp_rec = true;
+            repaint();
+        }
+
+
+
+        node_data toChoose = null;
+        Point3D point_temp = new Point3D(x,y);
+        double max_dist = 100000;
+        double min_dist = (size_node * 3);
+
+        Collection<node_data> nodes = Graph.getV();
+        Iterator<node_data> itr_nodes = nodes.iterator();
+        while(itr_nodes.hasNext()) {
+            node_data n = itr_nodes.next();
+            Point3D p = n.getLocation();
+            double dist = point_temp.distance2D(p);
+            if(dist<min_dist && dist<max_dist) {
+                max_dist = dist;
+                toChoose = n;
+            }
+        }
+        if(custom_graph && toChoose==null) {
+            NodeData new_n = new NodeData(Graph.getV().size() , 0, new Point3D(x,y,0));
+            Graph.addNode(new_n);
+            targets.clear();
+        }
+        if(toChoose!=null && !targets.contains(toChoose)){
+            targets.add(toChoose);
+        }
+
+        if(custom_graph && targets.size()==2) {
+            node_data begin = targets.get(0);
+            node_data end = targets.get(1);
+            double w;
+            try {
+                w = Double.parseDouble(JOptionPane.showInputDialog("Enter weight for the edge "+begin.getKey()+"-->"+end.getKey()+":"));
+            } catch (Exception e1) {
+                w = Math.random()*50;
+            }
+            Graph.connect(begin.getKey(), end.getKey(), w);
+            targets.clear();
+        }
+        repaint();
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void menuSelected(MenuEvent menuEvent) {
+
+    }
+
+    @Override
+    public void menuDeselected(MenuEvent menuEvent) {
+
+    }
+
+    @Override
+    public void menuCanceled(MenuEvent menuEvent) {
+
+    }
+
+    public static void main(String[] args) {
+        DGraph g1 = new DGraph();
+        NodeData n1 = new NodeData(0, 0, new Point3D(200,160,0));
+        NodeData n2 = new NodeData(1, 0, new Point3D(300,300,0));
+
+        g1.addNode(n1);
+        g1.addNode(n2);
+
+        g1.connect(0,1,0.5);
+        gui_graph draft = new gui_graph(g1);
     }
 
 

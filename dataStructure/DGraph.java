@@ -18,7 +18,11 @@ public class DGraph implements graph, Serializable {
 	///////////////////////////////////Constructor/////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////
 
-	public DGraph(){};
+	public DGraph(){
+		N = 0;
+		E = 0;
+		connectivity.clear();
+	};
 
 	// Initializing an graph with n nodes and no connections.
 	public DGraph(int n){
@@ -55,9 +59,10 @@ public class DGraph implements graph, Serializable {
 
 	@Override
 	public void addNode(node_data n) {
-		if( this.connectivity.get(n.getKey()) != null)
-			throw new IllegalArgumentException("the key already exists");
-		this.connectivity.put(this.N +1 , (NodeData) n);
+//		if( !this.connectivity.containsKey(n.getKey()) )
+//			throw new IllegalArgumentException("the key already exists");
+//		this.connectivity.put(this.N +1 , (NodeData) n);
+		this.connectivity.put(n.getKey(),(NodeData) n);
 		this.N ++;
 		changes++;
 	}
@@ -83,7 +88,7 @@ public class DGraph implements graph, Serializable {
 
 	@Override
 	public void connect(int src, int dest, double w) {
-		node_data src_node = connectivity.get(src);
+		/*node_data src_node = connectivity.get(src);
 				if (src_node == null){
 					throw new IllegalArgumentException("Source key not found");
 				}
@@ -92,7 +97,17 @@ public class DGraph implements graph, Serializable {
 					throw new IllegalArgumentException("Destination key not found");
 				}
 		Edge e = new Edge((NodeData) dest_node,w);
-		((NodeData) src_node).adjacency.put(dest_node.getKey() ,e );
+		((NodeData) src_node).adjacency.put(dest_node.getKey() ,e );*/
+		if (this.connectivity.get(src) == null){
+			throw new IllegalArgumentException("Source key not found");
+		}
+		if (this.connectivity.get(dest) == null){
+			throw new IllegalArgumentException("Destination key not found");
+		}
+		Edge e = new Edge (src, dest, w);
+		node_data destNode = this.connectivity.get(dest);
+		node_data srcNode = this.connectivity.get(src);
+		((NodeData)srcNode).adjacency.put(src, e);
 		this.E++;
 		changes++;
 	}

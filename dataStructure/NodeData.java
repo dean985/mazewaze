@@ -2,16 +2,11 @@
 import java.io.Serializable;
 import java.util.Hashtable;
 
-enum Colors{
-    Red,Black,Green,Yellow, Purple, Gray;
-        }
-
-
 public class NodeData implements node_data, Serializable {
     private int key;
     private Point3D position;
-    private double weight;
-    private int tag;
+    private double weight = 0;
+    private int tag = 0;
     public int previous;
     public boolean visited;
     // K - dest_node's key , V - Edge that is directing towards that dest_node
@@ -21,8 +16,6 @@ public class NodeData implements node_data, Serializable {
     public NodeData (int key){
         Point3D p1 = new Point3D(0,0,0);
         this.key = key;
-        this.weight = 0;
-        previous = -1;
         visited = false;
     }
 
@@ -30,7 +23,7 @@ public class NodeData implements node_data, Serializable {
         Point3D p1 = new Point3D(0,0,0);
         this.key = key;
         this.weight = Math.abs(weight);
-        previous = -1;
+
         visited = false;
 
     }
@@ -38,7 +31,7 @@ public class NodeData implements node_data, Serializable {
     public NodeData(NodeData n){
         this.key = n.key;
         this.weight = n.key;
-        this.previous = n.previous;
+
         this.visited = n.visited;
     }
 
@@ -46,7 +39,6 @@ public class NodeData implements node_data, Serializable {
     {
         this.key = key;
         this.weight = weight;
-        previous = -1;
         visited = false;
         this.position = point3D;
     }

@@ -3,6 +3,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
+import java.util.Iterator;
 
 class DGraphTest {
     static DGraph graph;
@@ -50,12 +51,18 @@ class DGraphTest {
 
     @Test
     void connect() {
-        graph.connect(0, 2, 2.5);
-        NodeData n1 = (NodeData) graph.connectivity.get(0);
-        Assertions.assertNotNull(n1.getEdgesByKey(2));
-        Assertions.assertNull(n1.getEdgesByKey(10));
-        Assertions.assertEquals(graph.connectivity.get(2), n1.getEdgesByKey(2).node, "Third");
-        graph.removeEdge(0, 2);
+        graph.clearGraph();
+        NodeData n1 = new NodeData(1);
+        NodeData n2 = new NodeData(2);
+
+        graph.addNode(n1);
+        graph.addNode(n2);
+        graph.connect(1,2,3);
+        Collection<edge_data> edges1 = graph.getE(1);
+        Collection<edge_data> edges2 = graph.getE(2);
+
+        Assertions.assertTrue(edges1.size() != edges2.size());
+        Assertions.assertEquals(2, n1.getEdgesByKey(1).getDest());
     }
 
     @Test
