@@ -100,6 +100,7 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
     @Override
     public void paint(Graphics p) {
         super.paint(p);
+
         Font font = p.getFont().deriveFont((float) 20.5);
         p.setFont(font);
 
@@ -142,11 +143,10 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
         if(shortest_path_on) {
             p.setColor(Color.BLACK);
             p.drawString("Click on the Source node, then click on the Destination node:", 100, 80);
-            p.drawString("The Shortest path between them will be marked with cyan,", 100, 100);
+            p.drawString("The Shortest path between them will be marked with cyan", 100, 100);
             if(targets.size()==2) {
                 algo.init(Graph);
-                ArrayList<node_data> ans = (ArrayList<node_data>)
-                        algo.shortestPath(targets.get(0).getKey(), targets.get(1).getKey());
+                ArrayList<node_data> ans = (ArrayList<node_data>)algo.shortestPath(targets.get(0).getKey(), targets.get(1).getKey());
                 p.setColor(Color.CYAN);
 
                 for(int i = 0; ans != null && i<ans.size()-1 ; i++) {
@@ -154,6 +154,7 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
                     node_data n1 = ans.get(i+1);
                     Point3D p0 = n0.getLocation();
                     Point3D p1 = n1.getLocation();
+
                     p.drawLine(p0.ix()-size_node, p0.iy()-size_node, p1.ix(), p1.iy());
                 }
 
@@ -166,14 +167,13 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
 
         if (custom_graph){
             p.setColor(Color.BLUE);
-            p.drawString("Start graphing!", 40, 80);
-            p.drawString("Click to add a new node. Clicking on two nodes will create an edge ", 40,110 );
+            p.drawString("Click to add a new node. Clicking on two nodes will create an edge ", 40,80 );
 
         }
         if(tsp) {
             p.setColor(Color.BLACK);
-            p.drawString("Click on nodes as you like ,when you finish click on the orange button on the left.", 120, 100);
-            p.drawString("A gray path among the nodes you chose will show, if possible.", 120, 120);
+            p.drawString("Click on the nodes, when you finish click on the orange button ", 50, 100);
+            p.drawString("Answer is in gray", 50, 120);
             /*if(!targets.isEmpty()) {
                 p.drawString("So far you chose these nodes: "+targets, 100, 120);
             }*/
@@ -224,11 +224,11 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
             saver.setVisible(true);
             String filename = saver.getFile();  //file name
             String path = saver.getDirectory(); //path of the newly created file
-            System.out.println(filename);
-//            if(filename!=null) {                //  save the algorithms of the graph
-//                algo.init(g);
-//                algo.save(path + filename +".txt");
-//            }
+            System.out.println(path+filename);
+            if(filename!=null) {                //  save the algorithms of the graph
+                algo.init(Graph);
+                algo.save(path + filename +".txt");
+            }
         } else if (str.equals("Load Graph")) {
             FileDialog loader = new FileDialog(this, "Load your Graph", FileDialog.LOAD);
             loader.setVisible(true);
@@ -236,7 +236,7 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
             String path = loader.getDirectory();    //path of the created file
 //            if(filename!=null) {              // loading graph
 //                algo.init(path + filename);
-//                g = algo.copy();
+////                Graph = algo.copy();
 //                repaint();
 //            }
 
@@ -294,10 +294,12 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
 
 
 
-        node_data toChoose = null;
+        node_data user_node = null;
         Point3D point_temp = new Point3D(x,y);
+
+
         double max_dist = 100000;
-        double min_dist = (size_node * 3);
+        double min_dist = 2*size_node;
 
         Collection<node_data> nodes = Graph.getV();
         Iterator<node_data> itr_nodes = nodes.iterator();
@@ -307,19 +309,19 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
             double dist = point_temp.distance2D(p);
             if(dist<min_dist && dist<max_dist) {
                 max_dist = dist;
-                toChoose = n;
+                user_node = n;
             }
         }
-        if(custom_graph && toChoose==null) {
+        if(custom_graph && user_node == null) {
             NodeData new_n = new NodeData(Graph.getV().size() , 0, new Point3D(x,y,0));
             Graph.addNode(new_n);
             targets.clear();
         }
-        if(toChoose!=null && !targets.contains(toChoose)){
-            targets.add(toChoose);
+        if(user_node!=null && !targets.contains(user_node)){
+            targets.add(user_node);
         }
 
-        if(custom_graph && targets.size()==2) {
+        if(  targets.size() == 2 && custom_graph) {
             node_data begin = targets.get(0);
             node_data end = targets.get(1);
             double w;

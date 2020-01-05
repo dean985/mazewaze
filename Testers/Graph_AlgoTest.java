@@ -16,7 +16,8 @@ class Graph_AlgoTest {
     @BeforeAll
    static void init_for_test()
     {
-        g.dGraph = new DGraph();
+        g.dGraph = new DGraph(5);
+
     }
 
     @Test
@@ -34,9 +35,13 @@ class Graph_AlgoTest {
     {
         Graph_Algo g2 = new Graph_Algo();
         g.dGraph.connect(0,1,1);
+
+
         g.save("file_test.txt");
         g2.init("file_test.txt");
+        NodeData n = (NodeData) ((DGraph)g2.dGraph).connectivity.get(0);
         Assertions.assertNotNull(((NodeData)((DGraph)g2.dGraph).connectivity.get(0)).adjacency.get(1));
+        //Assertions.assertNotNull(n.adjacency.get(0));
     }
 
     @Test

@@ -74,9 +74,9 @@ public class Graph_Algo implements graph_algorithms{
 		for (edge_data e: edge_list)
 		{
 
-			if(!((Edge) e).node.visited)
+			if( !   ((NodeData)((DGraph)dGraph).getNode(e.getDest())).visited  )
 			{
-					DFS(dg , ((Edge)e).node);
+					DFS(dg ,   ((NodeData)((DGraph)dGraph).getNode(((Edge)e).getDest()))     );
 			}
 
 		}
