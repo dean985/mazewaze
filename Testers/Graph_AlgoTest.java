@@ -115,9 +115,15 @@ class Graph_AlgoTest {
     @Test
     void copy()
     {
-        DGraph copied_graph ;
-        copied_graph =(DGraph) g.copy();
+       DGraph copied_graph ;
+       copied_graph =(DGraph) g.copy();
+       Iterator<node_data> iter =  g.dGraph.getV().iterator();
+       Iterator<node_data> iter2 = copied_graph.getV().iterator();
 
+       while (iter.hasNext() && iter2.hasNext())
+       {
+           Assertions.assertEquals(iter.next(),iter2.next());
+       }
 
 
     }
