@@ -9,6 +9,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 public class gui_graph extends JFrame implements  MenuListener, ActionListener, MouseListener {
     ///////////////////////////////////////////////////////////////////
@@ -152,7 +153,12 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
 
             if(targets.size() == 2) {
                 algo.init(Graph);
+                System.out.println(targets.get(0).getKey()+"  , "+targets.get(1).getKey());
+//                ArrayList<node_data> SP_ans = new ArrayList<node_data>(algo.shortestPath(targets.get(0).getKey(), targets.get(1).getKey()));
                 ArrayList<node_data> SP_ans = (ArrayList<node_data>)algo.shortestPath(targets.get(0).getKey(), targets.get(1).getKey());
+//                List<node_data> SP_ans = algo.shortestPath(targets.get(0).getKey(), targets.get(1).getKey());
+//                ArrayList<node_data> SP_ans = new ArrayList<>();
+//                SP_ans.addAll(algo.shortestPath(targets.get(0).getKey(), targets.get(1).getKey()));
                 p.setColor(Color.CYAN);
 
                 for(int i = 0; SP_ans != null && i<SP_ans.size()-1 ; i++) {
@@ -388,12 +394,12 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
         g1.addNode(n2);
 
         g1.connect(0,1,0.5);*/
-        NodeData n0 = new NodeData(0,2, new Point3D(250,500,0));
-        NodeData n1 = new NodeData(1,2, new Point3D(400,700,0));
-        NodeData n2 = new NodeData(2,2, new Point3D(300,200,0));
-        NodeData n3 = new NodeData(3,2, new Point3D(400,300,0));
-        NodeData n4 = new NodeData(4,2, new Point3D(200,750,0));
-        g1.addNode(n0);
+        //NodeData n0 = new NodeData(0,2, new Point3D(130,130,0));
+        NodeData n1 = new NodeData(1,2, new Point3D(200,300,0));
+        NodeData n2 = new NodeData(2,2, new Point3D(150,260,0));
+        NodeData n3 = new NodeData(3,2, new Point3D(175,210,0));
+        NodeData n4 = new NodeData(4,2, new Point3D(125,310,0));
+        //g1.addNode(n0);
         g1.addNode(n1);
         g1.addNode(n2);
         g1.addNode(n3);
@@ -401,7 +407,6 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
 
         g1.connect(1,3,1);
         g1.connect(3,4,1);
-        g1.connect(3,0,1);
         g1.connect(4,2,1);
         g1.connect(2,1,1);
         gui_graph draft = new gui_graph(g1);

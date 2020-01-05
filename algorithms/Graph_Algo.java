@@ -16,7 +16,7 @@ import java.util.List;
 public class Graph_Algo implements graph_algorithms{
 
 	public graph dGraph;
-	public Graph_Algo(){
+
 
 	public Graph_Algo ()
 	{
