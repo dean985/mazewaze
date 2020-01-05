@@ -1,6 +1,9 @@
 
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -14,10 +17,10 @@ public class Graph_Algo implements graph_algorithms{
 
 	public graph dGraph;
 
+
 	@Override
 	public void init(graph g) {
-		// TODO Auto-generated method stub
-		
+		dGraph = g;
 	}
 
 	@Override
@@ -61,34 +64,158 @@ public class Graph_Algo implements graph_algorithms{
 
 	}
 
+	private void DFS (DGraph dg,NodeData start)
+	{
+		start.visited = true;
+
+
+		Collection<edge_data> edge_list = dg.getE(start.getKey());
+
+		for (edge_data e: edge_list)
+		{
+
+			if(!((Edge) e).node.visited)
+			{
+					DFS(dg , ((Edge)e).node);
+			}
+
+		}
+
+
+	}
+
 	@Override
 	public boolean isConnected() {
-		// TODO Auto-generated method stub
-		return false;
+
+		Iterator<node_data> iterG =  dGraph.getV().iterator();
+		//1. MAKE DEEP SEARCH TO COLOR ALL NODS
+		//2. CHECK IF REALLY ALL THE NODES WERE COLORD
+		//3. RETURN FALSE IF ONE NOT COLORED
+
+		while (iterG.hasNext())
+		{
+			node_data node = iterG.next();
+			((DGraph)dGraph).connectivity.forEach((k,v)->{
+				((NodeData)v).visited = false;
+			});
+			DFS((DGraph) dGraph,(NodeData) node);
+
+			for (node_data _node : dGraph.getV())
+			{
+
+					if(!((NodeData)_node).visited)
+					{
+						return false;
+					}
+
+			}
+			
+		}
+
+
+
+		return true;
 	}
 
 	@Override
 	public double shortestPathDist(int src, int dest) {
-		// TODO Auto-generated method stub
-		return 0;
+
+	    NodeData [] nodeData = new NodeData[dGraph.getV().size()];
+
+        for (int i = 0; i <dGraph.getV().size(); i++) {
+
+            nodeData[i] = (NodeData) dGraph.getNode(i);
+        }
+        Dijkstra2 ds = new Dijkstra2(nodeData, src);
+        ds.computePaths();
+
+		if (dGraph.getNode(dest).getWeight() == Double.MAX_VALUE) {
+			throw new RuntimeException("the graph may not been connected");
+		}
+        return dGraph.getNode(dest).getWeight();
 	}
 
 	@Override
 	public List<node_data> shortestPath(int src, int dest) {
-		// TODO Auto-generated method stub
-		return null;
+		if(src==dest)return null;
+
+		NodeData [] nodeData = new NodeData[dGraph.getV().size()];
+
+		for (int i = 0; i <dGraph.getV().size(); i++) {
+
+			nodeData[i] = (NodeData) dGraph.getNode(i);
+		}
+		Dijkstra2 ds = new Dijkstra2(nodeData, src);
+		ds.computePaths();
+
+		if (dGraph.getNode(dest).getWeight() == Double.MAX_VALUE) {
+			throw new RuntimeException("the graph may not been connected");
+		}
+
+		return ds.getPath(dest,(DGraph) dGraph);
 	}
 
 	@Override
 	public List<node_data> TSP(List<Integer> targets) {
-		// TODO Auto-generated method stub
-		return null;
+
+		ArrayList<node_data> path = new ArrayList<node_data>();
+		NodeData src;
+		boolean finished = false;
+
+		Collection edge_list;
+		Iterator<edge_data> edge_dataIterator;
+
+		if(!this.isConnected())
+			return path;
+
+		for (int i = 0; i < targets.size() && !finished; i++)
+		{
+			src = (NodeData) dGraph.getNode(targets.get(i));
+			path.add(src);
+			edge_list	=  dGraph.getE(src.getKey());
+				edge_dataIterator = edge_list.iterator();
+
+			for (int j = 0; edge_dataIterator.hasNext() && !finished; j++)
+				{
+					if(targets.contains(edge_dataIterator.next().getDest()))
+						{
+							src = (NodeData) dGraph.getNode(targets.get(j));
+							j = 0;
+							edge_list	=  dGraph.getE(src.getKey());
+							edge_dataIterator = edge_list.iterator();
+							path.add(src);
+						}
+					int counter = 0;
+					for (int k = 0; k < targets.size() ; k++)
+					{
+						if(path.contains(dGraph.getNode(targets.get(k))))
+						{
+							counter ++;
+							//path.clear();
+							//finished = false;
+							//break;
+						}
+					}
+					if(counter == targets.size())
+					{
+						finished = true;
+					}
+				}
+
+
+
+				//while ()
+
+		}
+
+		return path;
 	}
 
 	@Override
 	public graph copy() {
-		// TODO Auto-generated method stub
-		return null;
+		graph g = new DGraph((DGraph) dGraph);
+		return g;
 	}
+	
 
 }

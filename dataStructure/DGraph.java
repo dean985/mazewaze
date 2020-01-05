@@ -20,6 +20,12 @@ public class DGraph implements graph, Serializable {
 	///////////////////////////////////////////////////////////////////////////////////
 
 	// Initializing an graph with n nodes and no connections.
+	public DGraph()
+	{
+		this.N = 0;
+		this.E = 0;
+	}
+
 	public DGraph(int n){
 		if(n < 0) throw new IllegalArgumentException("number of nodes should be non-negative ");
 		this.N = n;
@@ -30,9 +36,20 @@ public class DGraph implements graph, Serializable {
 		}
 	}
 
+	public DGraph(DGraph g)
+	{
+		this.N = g.N;
+		this.E = g.E;
+		DGraph thisDgraph = this;
+		g.connectivity.forEach((k,v)->{
+			thisDgraph.connectivity.put(k,v);
+		});
+	}
+
 	///////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////Methods ////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////
+
 
 
 	@Override
@@ -67,11 +84,11 @@ public class DGraph implements graph, Serializable {
 	public void connect(int src, int dest, double w) {
 		node_data src_node = connectivity.get(src);
 				if (src_node == null){
-					throw new IllegalArgumentException("Source key not found");
+					throw new IllegalArgumentException("Source key not found: " + src);
 				}
 				node_data dest_node = connectivity.get(dest);
 				if (dest_node == null){
-					throw new IllegalArgumentException("Source key not found");
+					throw new IllegalArgumentException("dest key not found: " +dest);
 				}
 		Edge e = new Edge((NodeData) dest_node,w);
 		((NodeData) src_node).adjacency.put(dest_node.getKey() ,e );

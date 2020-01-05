@@ -8,6 +8,7 @@ enum Colors{
 
 
 public class NodeData implements node_data, Serializable {
+    public static double infinity = Double.POSITIVE_INFINITY;
     private int key;
     private Point3D position;
     private double weight;
@@ -21,7 +22,7 @@ public class NodeData implements node_data, Serializable {
     public NodeData (int key){
         Point3D p1 = new Point3D(Math.random()*10,Math.random()*10,Math.random()*10);
         this.key = key;
-        this.weight = 0;
+        this.weight = infinity;
         previous = -1;
         visited = false;
 
