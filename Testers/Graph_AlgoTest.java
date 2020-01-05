@@ -62,9 +62,10 @@ class Graph_AlgoTest {
     void shortestPathDist()
     {
        // g.dGraph.connect(0,1,1);
+         g.dGraph.connect(3,0,1);
+
         g.dGraph.connect(1,3,1);
         g.dGraph.connect(3,4,1);
-       // g.dGraph.connect(3,0,1);
         g.dGraph.connect(4,2,1);
         g.dGraph.connect(2,1,1);
 

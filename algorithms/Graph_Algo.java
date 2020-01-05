@@ -124,12 +124,13 @@ public class Graph_Algo implements graph_algorithms{
 
         for (int i = 0; i <dGraph.getV().size(); i++) {
 
+			dGraph.getNode(i).setWeight(Double.POSITIVE_INFINITY);
             nodeData[i] = (NodeData) dGraph.getNode(i);
         }
         Dijkstra2 ds = new Dijkstra2(nodeData, src);
         ds.computePaths();
 
-		if (dGraph.getNode(dest).getWeight() == Double.MAX_VALUE) {
+		if (dGraph.getNode(dest).getWeight() == Double.POSITIVE_INFINITY) {
 			throw new RuntimeException("the graph may not been connected");
 		}
         return dGraph.getNode(dest).getWeight();
