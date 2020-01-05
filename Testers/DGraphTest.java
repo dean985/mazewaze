@@ -30,6 +30,7 @@ class DGraphTest {
     {
         Assertions.assertEquals(graph.getNode(1), graph.connectivity.get(1));
         Assertions.assertEquals(graph.getNode(-1), null);
+
     }
 
     @Test
@@ -47,6 +48,8 @@ class DGraphTest {
         Assertions.assertEquals(6, graph.nodeSize());
 
         graph.removeNode(6);
+        Assertions.assertEquals(5, graph.nodeSize());
+
     }
 
     @Test
