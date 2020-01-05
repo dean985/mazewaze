@@ -73,7 +73,7 @@ public class DGraph implements graph, Serializable {
 	public void addNode(node_data n) {
 //		if( !this.connectivity.containsKey(n.getKey()) )
 //			throw new IllegalArgumentException("the key already exists");
-//		this.connectivity.put(this.N +1 , (NodeData) n);
+
 		this.connectivity.put(n.getKey(),(NodeData) n);
 		this.N ++;
 		changes++;
@@ -116,6 +116,7 @@ public class DGraph implements graph, Serializable {
 		if (this.connectivity.get(dest) == null){
 			throw new IllegalArgumentException("dest key not found: " + dest);
 		}
+
 		Edge e = new Edge (src, dest, w);
 		node_data destNode = this.connectivity.get(dest);
 		node_data srcNode = this.connectivity.get(src);

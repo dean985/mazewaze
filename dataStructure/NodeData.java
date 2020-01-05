@@ -26,7 +26,6 @@ public class NodeData implements node_data, Serializable {
         Point3D p1 = new Point3D(0,0,0);
         this.key = key;
         this.weight = Math.abs(weight);
-
         visited = false;
 
     }
