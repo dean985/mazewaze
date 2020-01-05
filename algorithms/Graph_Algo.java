@@ -1,6 +1,7 @@
 
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
 public class Graph_Algo implements graph_algorithms{
 
 	public graph dGraph;
+
 
 	@Override
 	public void init(graph g) {
@@ -61,19 +63,6 @@ public class Graph_Algo implements graph_algorithms{
 		}
 
 	}
-
-	/*
-	function DFS(Start, Goal)
-        Color(Start, Grey)
-        if Start = Goal
-            return True
-        for Child in Expand(Node)
-            if not Colored(Child)
-                if DFS(Child, Goal)=True
-                    return True
-        Color(Start, Black)
-        return False
-	 */
 
 	private void DFS (DGraph dg,NodeData start)
 	{
@@ -168,8 +157,58 @@ public class Graph_Algo implements graph_algorithms{
 
 	@Override
 	public List<node_data> TSP(List<Integer> targets) {
-		// TODO Auto-generated method stub
-		return null;
+
+		ArrayList<node_data> path = new ArrayList<node_data>();
+		NodeData src;
+		boolean finished = false;
+
+		Collection edge_list;
+		Iterator<edge_data> edge_dataIterator;
+
+		if(!this.isConnected())
+			return path;
+
+		for (int i = 0; i < targets.size() && !finished; i++)
+		{
+			src = (NodeData) dGraph.getNode(targets.get(i));
+			path.add(src);
+			edge_list	=  dGraph.getE(src.getKey());
+				edge_dataIterator = edge_list.iterator();
+
+			for (int j = 0; edge_dataIterator.hasNext() && !finished; j++)
+				{
+					if(targets.contains(edge_dataIterator.next().getDest()))
+						{
+							src = (NodeData) dGraph.getNode(targets.get(j));
+							j = 0;
+							edge_list	=  dGraph.getE(src.getKey());
+							edge_dataIterator = edge_list.iterator();
+							path.add(src);
+						}
+					int counter = 0;
+					for (int k = 0; k < targets.size() ; k++)
+					{
+						if(path.contains(dGraph.getNode(targets.get(k))))
+						{
+							counter ++;
+							//path.clear();
+							//finished = false;
+							//break;
+						}
+					}
+					if(counter == targets.size())
+					{
+						finished = true;
+					}
+				}
+
+
+
+				//while ()
+
+		}
+
+		return path;
 	}
 
 	@Override

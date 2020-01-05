@@ -16,7 +16,7 @@ class Graph_AlgoTest {
     @BeforeAll
    static void init_for_test()
     {
-        g.dGraph = new DGraph(5);
+        g.dGraph = new DGraph();
     }
 
     @Test
@@ -86,11 +86,33 @@ class Graph_AlgoTest {
 
     @Test
     void TSP() {
+
+        g.dGraph.addNode(new NodeData(1,0, new Point3D(100,200,300)));
+        g.dGraph.addNode(new NodeData(2,0, new Point3D(200,300,400)));
+        g.dGraph.connect(1, 2, 5);
+        g.dGraph.connect(2, 1, 10);
+        List<Integer> targets = new ArrayList<Integer>();
+        targets.add(1);
+        targets.add(2);
+        targets.add(1);
+       // g.init(g.dGraph);
+        List<node_data> ans =g.TSP(targets);
+        if(ans.isEmpty())
+            System.out.println("null");
+        else {
+            for (int i = 0; i < ans.size(); i++) {
+                System.out.print(ans.get(i).getKey() + " ");
+            }
+        }
     }
 
     @Test
     void copy()
     {
+        DGraph copied_graph ;
+        copied_graph =(DGraph) g.copy();
+
+
 
     }
 }

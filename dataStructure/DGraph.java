@@ -20,6 +20,12 @@ public class DGraph implements graph, Serializable {
 	///////////////////////////////////////////////////////////////////////////////////
 
 	// Initializing an graph with n nodes and no connections.
+	public DGraph()
+	{
+		this.N = 0;
+		this.E = 0;
+	}
+
 	public DGraph(int n){
 		if(n < 0) throw new IllegalArgumentException("number of nodes should be non-negative ");
 		this.N = n;
