@@ -25,16 +25,27 @@ public class Graph_Algo implements graph_algorithms{
 		dGraph = new DGraph();
 		dGraph.addNode(new NodeData(0));
 	}
+
+
 	public Graph_Algo (graph g)
 	{
-		dGraph = g;
+		init(g);
 	}
 
+	/**
+	 * Init this set of algorithms on the parameter - graph.
+	 * @param g
+	 */
 	@Override
 	public void init(graph g) {
-		dGraph = g;
+
+		dGraph = new DGraph((DGraph) g);
 	}
 
+	/**
+	 * Init a graph from file
+	 * @param file_name
+	 */
 	@Override
 	public void init(String file_name)  {
 		File f = new File(file_name);
@@ -44,8 +55,6 @@ public class Graph_Algo implements graph_algorithms{
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			dGraph = (graph) ois.readObject();
 			fis.close();
-
-
 		} catch (FileNotFoundException e) {
 			System.out.println(e.getMessage());
 		} catch (IOException e) {
@@ -58,6 +67,10 @@ public class Graph_Algo implements graph_algorithms{
 
 	}
 
+	/** Saves the graph to a file.
+	 *
+	 * @param file_name
+	 */
 	@Override
 	public void save(String file_name) {
 		File f = new File(file_name);
@@ -75,6 +88,9 @@ public class Graph_Algo implements graph_algorithms{
 		}
 
 	}
+
+
+
 
 	private void DFS (DGraph dg,NodeData start)
 	{
@@ -95,6 +111,12 @@ public class Graph_Algo implements graph_algorithms{
 
 
 	}
+
+	/**
+	 * Returns true if and only if (iff) there is a valid path from EVREY node to each
+	 * other node. NOTE: assume directional graph - a valid path (a-->b) does NOT imply a valid path (b-->a).
+	 * @return
+	 */
 
 	@Override
 	public boolean isConnected() {
@@ -120,12 +142,16 @@ public class Graph_Algo implements graph_algorithms{
 			}
 			
 		}
-
-
-
 		return true;
 	}
 
+
+	/**
+	 * returns the length of the shortest path between src to dest
+	 * @param src - start node
+	 * @param dest - end (target) node
+	 * @return
+	 */
 	@Override
 	public double shortestPathDist(int src, int dest) {
 
@@ -145,6 +171,14 @@ public class Graph_Algo implements graph_algorithms{
         return dGraph.getNode(dest).getWeight();
 	}
 
+
+	/**
+	 * returns the the shortest path between src to dest - as an ordered List of nodes:
+	 * src--> n1-->n2-->...dest
+	 * @param src - start node
+	 * @param dest - end (target) node
+	 * @return
+	 */
 	@Override
 	public List<node_data> shortestPath(int src, int dest) {
 		if(src==dest)return null;
@@ -173,6 +207,15 @@ public class Graph_Algo implements graph_algorithms{
 		return ds.getPath(dest,(DGraph) dGraph);
 	}
 
+
+	/**
+	 * computes a relatively short path which visit each node in the targets List.
+	 * Note: this is NOT the classical traveling salesman problem,
+	 * as you can visit a node more than once, and there is no need to return to source node -
+	 * just a simple path going over all nodes in the list.
+	 * @param targets
+	 * @return
+	 */
 	@Override
 	public List<node_data> TSP(List<Integer> targets) {
 
@@ -225,6 +268,11 @@ public class Graph_Algo implements graph_algorithms{
 		return path;
 	}
 
+
+	/**
+	 * Compute a deep copy of this graph.
+	 * @return
+	 */
 	@Override
 	public graph copy() {
 		graph g = new DGraph((DGraph) dGraph);

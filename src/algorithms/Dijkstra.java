@@ -10,6 +10,13 @@ import java.util.Hashtable;
 public class Dijkstra {
 	Hashtable<Integer, node_data> vertices;
 	int source;
+
+	/**
+	 * initilizing method
+	 * @param vs
+	 * @param source
+	 */
+
 	public Dijkstra(NodeData[] vs, int source){
 		this.source = source;
 		vertices = new Hashtable<>();
@@ -18,6 +25,9 @@ public class Dijkstra {
 		}
 	}
 
+	/**
+	 * compute the path in to weight size for each node
+	 */
 	public void computePaths(){
 		NodeData s = (NodeData) vertices.get(source);
 		s.setWeight( 0.);
@@ -50,6 +60,12 @@ public class Dijkstra {
 	}
 
 
+	/**
+	 * return the path of the given destenation from the src of the class
+	 * @param v
+	 * @param dGraph
+	 * @return
+	 */
 	public ArrayList<node_data> getPath(int v, DGraph dGraph){
 		int t = v;
 		ArrayList<node_data> ans = new ArrayList<node_data>();
