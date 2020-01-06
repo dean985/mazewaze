@@ -1,3 +1,8 @@
+package algorithms;
+
+import dataStructure.NodeData;
+import dataStructure.node_data;
+
 public class HeapMin {
 
 	double _positiveInfinity = Double.POSITIVE_INFINITY;
@@ -115,31 +120,5 @@ public class HeapMin {
 		}
 		return ans;
 	}
-/*	public static void main(String[] args) {
-		NodeData nodes1[] = {new NodeData(16,0),
-						 new NodeData(5,1),
-						 new NodeData(8,2),
-						 new NodeData(4,3),
-						 new NodeData(2,4),
-						 new NodeData(1,5)};
-		//int nodes1[] = {16,8,4,2,1}; 
-		//int nodes2[] = {5,13,2,25,7,17,2,8,4}; 
-		//int nodes3[] = {16,14,10,8,7,9,3,2,4,1}; 
-		HeapMin hp = new HeapMin(nodes1);
-		//hp.buildMinHeap();
-		hp.print();
-		NodeData node = new NodeData(3,nodes1.length);
-		hp.minHeapInsert(node);
-		hp.print();
-		System.out.println("min = "+ hp.heapExtractMin().getKey());
-		hp.print();
-		System.out.println("min = "+ hp.heapExtractMin().getKey());
-		hp.print();
-/// heap sort
-		
-		HeapMin hps = new HeapMin(nodes1);
-		//hps.heapSort();
-		hps.print();
-	}*/
 
 }

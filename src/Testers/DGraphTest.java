@@ -1,10 +1,10 @@
+import dataStructure.*;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+
 import java.util.Collection;
-import java.util.Iterator;
 
 class DGraphTest {
     static DGraph graph;
@@ -38,7 +38,7 @@ class DGraphTest {
     @Test
     void getEdge() {
         graph.connect(1,4 , 4.5);
-        Assertions.assertEquals(((Edge)graph.getEdge(1,4)).weight, 4.5 );
+        Assertions.assertEquals(((Edge)graph.getEdge(1,4)).getWeight(), 4.5 );
         graph.removeEdge(1,4);
     }
 

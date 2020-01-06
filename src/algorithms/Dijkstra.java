@@ -1,5 +1,10 @@
+package algorithms;
+
+import dataStructure.DGraph;
+import dataStructure.NodeData;
+import dataStructure.node_data;
+
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Hashtable;
 
 public class Dijkstra {
@@ -18,8 +23,6 @@ public class Dijkstra {
 		s.setWeight( 0.);
 		HeapMin Q = new HeapMin();
 		Q.minHeapInsert(s);
-		//Collection<NodeData> temp_node_collection = vertices;
-
 
 		//O(nlogn)
 		for (int i=1; i<vertices.size(); i++){//O(n)
@@ -46,16 +49,7 @@ public class Dijkstra {
 		}
 	}
 
-//	public void printWeights(){
-//		System.out.print("weights: ");
-//
-//
-//
-//		for (NodeData v : vertices) {
-//			System.out.printf(v.getWeight() + ", ");
-//		}
-//		System.out.println();
-//	}
+
 	public ArrayList<node_data> getPath(int v, DGraph dGraph){
 		int t = v;
 		ArrayList<node_data> ans = new ArrayList<node_data>();
@@ -73,11 +67,5 @@ public class Dijkstra {
 		return ans2;
 	}
 
-	//Todo: delete
-//	public void printPaths(){
-//		for (NodeData v : vertices){
-//			//System.out.println("price of " + v.getKey()+" = " + v.getWeight() + ", path: " +  getPath(v.getKey()));
-//		}
-//		System.out.println();
-//	}
+
 }

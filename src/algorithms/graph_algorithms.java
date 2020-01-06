@@ -1,4 +1,4 @@
-
+package algorithms;
 /**
  * This interface represents the "regular" Graph Theory algorithms including:
  * 0. clone();
@@ -11,6 +11,9 @@
  * @author boaz.benmoshe
  *
  */
+
+import dataStructure.graph;
+import dataStructure.node_data;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

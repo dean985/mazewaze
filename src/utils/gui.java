@@ -1,4 +1,6 @@
-//import utils.StdDraw;
+package utils;//import utils.StdDraw;
+
+import dataStructure.DGraph;
 
 public class gui {
 

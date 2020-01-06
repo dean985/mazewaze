@@ -1,4 +1,4 @@
-
+package dataStructure;
 
 import java.io.Serializable;
 
@@ -12,11 +12,7 @@ public class Edge implements edge_data, Serializable {
     ///////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////Constructor/////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////////
-//    public Edge(NodeData node, double weight){
-//        this.node = node;
-//            this.weight = Math.abs(weight);
-//
-//    }
+
     public Edge (int src, int dest){
         this.dest = dest;
         this.src = src;

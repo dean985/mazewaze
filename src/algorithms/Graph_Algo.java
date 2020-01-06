@@ -1,6 +1,7 @@
+package algorithms;
 
+import dataStructure.*;
 
-import javax.xml.soap.Node;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -99,9 +100,6 @@ public class Graph_Algo implements graph_algorithms{
 	public boolean isConnected() {
 
 		Iterator<node_data> iterG =  dGraph.getV().iterator();
-		//1. MAKE DEEP SEARCH TO COLOR ALL NODS
-		//2. CHECK IF REALLY ALL THE NODES WERE COLORD
-		//3. RETURN FALSE IF ONE NOT COLORED
 
 		while (iterG.hasNext())
 		{
@@ -164,8 +162,7 @@ public class Graph_Algo implements graph_algorithms{
 
 
 		}
-//		Dijkstra2 ds = new Dijkstra2(nodeData, src);
-//		ds.computePaths();
+
 		Dijkstra ds = new Dijkstra(nodeData, src);
 		ds.computePaths();
 
@@ -222,10 +219,6 @@ public class Graph_Algo implements graph_algorithms{
 						finished = true;
 					}
 				}
-
-
-
-				//while ()
 
 		}
 

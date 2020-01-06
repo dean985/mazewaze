@@ -1,4 +1,8 @@
-//import Point3D;
+package GUI_graph;//import Point3D;
+import algorithms.Graph_Algo;
+import dataStructure.*;
+import utils.Point3D;
+
 import javax.swing.*;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
@@ -104,9 +108,7 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
     public void paint(Graphics p) {
         super.paint(p);
         p.setFont((new Font("Arial", Font.BOLD, 18)));
-//        Font font = p.getFont().deriveFont((float) 20.5);
-//        p.setFont(font);
-        // paint each node in the graph
+
         for (node_data n: Graph.getV()){
             p.setColor(Color.BLACK);
             p.fillOval(n.getLocation().ix()- (size_node/2), n.getLocation().iy() - (size_node/2), size_node, size_node);
@@ -193,12 +195,10 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
                 p.setColor(Color.GRAY);
                 algo.init(Graph);
 
-                //ArrayList<Integer> nodesKeys = new ArrayList<Integer>();
                 List<Integer> nodesKeys = new ArrayList<Integer>();
                 for(int i =0 ; i<targets.size(); i++)
                     nodesKeys.add(targets.get(i).getKey());
 
-                //ArrayList<node_data> tsp_ans = (ArrayList<node_data>) algo.TSP(nodesKeys);
                 List<node_data> tsp_ans =  algo.TSP(nodesKeys);
                 String path = "";
                 for(int i = 0; tsp_ans != null && i<tsp_ans.size()-1 ; i++) {
@@ -383,19 +383,12 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
 
     public static void main(String[] args) {
         DGraph g1 = new DGraph();
-       /* NodeData n1 = new NodeData(0, 0, new Point3D(200,160,0));
-        NodeData n2 = new NodeData(1, 0, new Point3D(300,300,0));
 
-        g1.addNode(n1);
-        g1.addNode(n2);
-
-        g1.connect(0,1,0.5);*/
         NodeData n0 = new NodeData(0,2, new Point3D(130,130,0));
         NodeData n1 = new NodeData(1,2, new Point3D(290,300,0));
         NodeData n2 = new NodeData(2,2, new Point3D(170,260,0));
         NodeData n3 = new NodeData(3,2, new Point3D(175,210,0));
         NodeData n4 = new NodeData(4,2, new Point3D(125,310,0));
-       // g1.addNode(n0); //////////for some reason its dosent let me shut 0
         g1.addNode(n1);
         g1.addNode(n2);
         g1.addNode(n3);

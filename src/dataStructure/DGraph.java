@@ -1,3 +1,7 @@
+package dataStructure;
+
+import utils.Point3D;
+
 import java.io.Serializable;
 import java.util.*;
 
@@ -8,7 +12,7 @@ public class DGraph implements graph, Serializable {
 	int changes = 0;	// For MC
 	private int N;		//Number of nodes in graph
 	private int E;		// Number of edges in graph
-	Hashtable<Integer, node_data> connectivity=
+	public Hashtable<Integer, node_data> connectivity=
 			new Hashtable<Integer, node_data>();
 	// Hashtable: <key, value>
 	// key - node.key
@@ -100,16 +104,7 @@ public class DGraph implements graph, Serializable {
 
 	@Override
 	public void connect(int src, int dest, double w) {
-		/*node_data src_node = connectivity.get(src);
-				if (src_node == null){
-					throw new IllegalArgumentException("Source key not found: " + src);
-				}
-				node_data dest_node = connectivity.get(dest);
-				if (dest_node == null){
-					throw new IllegalArgumentException("dest key not found: " +dest);
-				}
-		Edge e = new Edge((NodeData) dest_node,w);
-		((NodeData) src_node).adjacency.put(dest_node.getKey() ,e );*/
+
 		if (this.getNode(dest)== null){
 			throw new IllegalArgumentException("Source key not found");
 		}
