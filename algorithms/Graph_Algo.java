@@ -1,5 +1,6 @@
 
 
+import javax.xml.soap.Node;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -198,14 +199,13 @@ public class Graph_Algo implements graph_algorithms{
 			for (int j = 0; edge_dataIterator.hasNext() && !finished; j++)
 				{
 					int dest_temp = edge_dataIterator.next().getDest();
-					if(targets.contains(dest_temp))
-						{
-							src = (NodeData) dGraph.getNode(targets.get(dest_temp));
+
+							src = (NodeData) dGraph.getNode(dest_temp);
 							j = 0;
 							edge_list	=  dGraph.getE(src.getKey());
 							edge_dataIterator = edge_list.iterator();
 							path.add(src);
-						}
+
 					int counter = 0;
 					for (int k = 0; k < targets.size() ; k++)
 					{
@@ -237,6 +237,5 @@ public class Graph_Algo implements graph_algorithms{
 		graph g = new DGraph((DGraph) dGraph);
 		return g;
 	}
-
-
+	
 }

@@ -183,13 +183,9 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
         if(tsp) {
             p.setColor(Color.BLACK);
             p.drawString("Click on the nodes, when you finish click on the orange button ", 50, 100);
-            p.drawString("Answer is in gray", 50, 120);
-            /*if(!targets.isEmpty()) {
-                p.drawString("So far you chose these nodes: "+targets, 100, 120);
-            }*/
-            if (targets.size() == 2){
-                p.drawString("You chose: "+ targets, 80, 100);
-            }
+            p.drawString("Answer is in gray", 50, 500);
+
+
             //tsp button
             p.setColor(Color.ORANGE);
             p.drawRect(50, 130, 30, 30);
@@ -197,11 +193,13 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
                 p.setColor(Color.GRAY);
                 algo.init(Graph);
 
-                ArrayList<Integer> nodesKeys = new ArrayList<Integer>();
+                //ArrayList<Integer> nodesKeys = new ArrayList<Integer>();
+                List<Integer> nodesKeys = new ArrayList<Integer>();
                 for(int i =0 ; i<targets.size(); i++)
                     nodesKeys.add(targets.get(i).getKey());
 
-                ArrayList<node_data> tsp_ans = (ArrayList<node_data>) algo.TSP(nodesKeys);
+                //ArrayList<node_data> tsp_ans = (ArrayList<node_data>) algo.TSP(nodesKeys);
+                List<node_data> tsp_ans =  algo.TSP(nodesKeys);
                 String path = "";
                 for(int i = 0; tsp_ans != null && i<tsp_ans.size()-1 ; i++) {
                     node_data n1 = tsp_ans.get(i);
@@ -214,7 +212,7 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
                 p.setColor(Color.BLACK);
                 if(tsp_ans!=null) {
                     path += tsp_ans.get(tsp_ans.size() -1).getKey();
-                    p.drawString("The TSP path is: "+path, 100, 140);
+                    p.drawString("The TSP path is: "+path, 50, 140);
                 } else {
                     p.drawString("There is no Path that goes through all the selected nodes. ", 100, 140);
                 }
