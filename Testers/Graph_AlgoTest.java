@@ -119,6 +119,7 @@ class Graph_AlgoTest {
         int[] real_ans2 = {1,3,4,5};
         g.TSP(targets).forEach((n)-> {
             System.out.print(((NodeData)n).getKey()+",");
+            System.out.print(((NodeData)n).getKey()+",");
         });
 
 
