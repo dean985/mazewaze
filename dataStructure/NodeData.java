@@ -4,6 +4,7 @@ import java.util.Hashtable;
 
 public class NodeData implements node_data, Serializable {
     public static double infinity = Double.POSITIVE_INFINITY;
+    String info = "";
     private int key;
     private Point3D position;
     private double weight = 0;
@@ -15,7 +16,7 @@ public class NodeData implements node_data, Serializable {
 
 
     public NodeData (int key){
-        Point3D p1 = new Point3D(0,0,0);
+        position = new Point3D(0,0,0);
         this.key = key;
         this.weight = infinity;
         previous = -1;
@@ -76,17 +77,14 @@ public class NodeData implements node_data, Serializable {
 
     @Override
     public String getInfo() {
-       String str ;
-       str = "key: " +  Double.toString(key) + " ";
-       str += "(" + position.x() + "," + position.y() + "," + position.z() + ") \n";
-       str += adjacency.toString();
-        return str;
+
+        return  info;
     }
 
     @Override
     public void setInfo(String s)
     {
-
+        info =s;
     }
     @Override
     public int getTag() {

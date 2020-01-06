@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Array;
@@ -13,25 +14,16 @@ class Graph_AlgoTest {
 
     static Graph_Algo g = new Graph_Algo();
 
-   // @BeforeAll
-   static void init_for_test()
+   @BeforeEach
+    void init_for_test()
     {
         g.dGraph = new DGraph(5);
 
     }
 
-    @Test
-    void init() {
-    }
 
     @Test
-    void testInit()
-    {
-
-    }
-
-    @Test
-    void save()
+    void saveAndInit()
     {
         Graph_Algo g2 = new Graph_Algo();
         g.dGraph.connect(0,1,1);

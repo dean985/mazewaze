@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
@@ -7,8 +8,9 @@ import java.util.Iterator;
 
 class DGraphTest {
     static DGraph graph;
-    @BeforeAll
-    static void init()
+
+    @BeforeEach
+     void init()
     {
         graph = new DGraph(5);
 
@@ -65,7 +67,7 @@ class DGraphTest {
         Collection<edge_data> edges2 = graph.getE(2);
 
         Assertions.assertTrue(edges1.size() != edges2.size());
-        Assertions.assertEquals(2, n1.getEdgesByKey(1).getDest());
+        Assertions.assertEquals(2, n1.getEdgesByKey(2).getDest());
     }
 
     @Test

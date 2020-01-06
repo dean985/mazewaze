@@ -137,7 +137,7 @@ public class Graph_Algo implements graph_algorithms{
 			dGraph.getNode(i).setWeight(Double.POSITIVE_INFINITY);
             nodeData[i] = (NodeData) dGraph.getNode(i);
         }
-        Dijkstra2 ds = new Dijkstra2(nodeData, src);
+        Dijkstra ds = new Dijkstra(nodeData, src);
         ds.computePaths();
 
 		if (dGraph.getNode(dest).getWeight() == Double.POSITIVE_INFINITY) {

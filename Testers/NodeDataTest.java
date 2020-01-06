@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 
@@ -7,10 +8,10 @@ class NodeDataTest {
 
     NodeData node ;
 
-    @BeforeAll
+    @BeforeEach
     void init()
     {
-       //node = new NodeData(1,new Point3D(1,1,0));
+       node = new NodeData(1);
 
     }
 
@@ -22,35 +23,67 @@ class NodeDataTest {
     }
 
     @Test
-    void getLocation() {
+    void getLocation()
+    {
+        Assertions.assertEquals(0,node.getLocation().x());
+        Assertions.assertEquals(0,node.getLocation().y());
     }
 
 
     @Test
-    void setLocation() {
+    void setLocation()
+    {
+        Assertions.assertEquals(0,node.getLocation().x());
+        Assertions.assertEquals(0,node.getLocation().y());
+        node.setLocation(new Point3D(1,1,1));
+        Assertions.assertEquals(1,node.getLocation().x());
+        Assertions.assertEquals(1,node.getLocation().y());
     }
 
     @Test
-    void getWeight() {
+    void getWeight()
+    {
+        Assertions.assertEquals(Double.POSITIVE_INFINITY,node.getWeight());
     }
 
     @Test
-    void setWeight() {
+    void setWeight()
+    {
+        Assertions.assertEquals(Double.POSITIVE_INFINITY,node.getWeight());
+       node.setWeight(5);
+        Assertions.assertEquals(5,node.getWeight());
+
     }
 
     @Test
-    void getInfo() {
+    void getInfo()
+    {
+        Assertions.assertEquals("", node.getInfo());
+
     }
 
     @Test
-    void setInfo() {
+    void setInfo()
+    {
+        Assertions.assertEquals("", node.getInfo());
+        node.setInfo("hello");
+        Assertions.assertEquals("hello", node.getInfo());
+
     }
 
     @Test
-    void getTag() {
+    void getTag()
+    {
+        Assertions.assertEquals(0, node.getTag());
+
     }
 
     @Test
-    void setTag() {
+    void setTag()
+    {
+        Assertions.assertEquals(0, node.getTag());
+        node.setTag(2);
+        Assertions.assertEquals(2, node.getTag());
+
     }
 }
