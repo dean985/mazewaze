@@ -20,7 +20,8 @@ public class Graph_Algo implements graph_algorithms{
 
 	public Graph_Algo ()
 	{
-
+		dGraph = new DGraph();
+		dGraph.addNode(new NodeData(0));
 	}
 	public Graph_Algo (graph g)
 	{
@@ -149,16 +150,25 @@ public class Graph_Algo implements graph_algorithms{
 	public List<node_data> shortestPath(int src, int dest) {
 		if(src==dest)return null;
 
-		NodeData [] nodeData = new NodeData[dGraph.getV().size()];
+		Collection<node_data> node_dataCollection = dGraph.getV();
+		Iterator<node_data> node_dataIterator = node_dataCollection.iterator();
+		NodeData temp;
+		NodeData [] nodeData = new NodeData[dGraph.getV().size()];// = (NodeData[]) dGraph.getV().toArray();
 
-		for (int i = 0; i <dGraph.getV().size(); i++) {
+		for (int i = 0 ; node_dataIterator.hasNext(); i++) {
+			 temp =(NodeData) node_dataIterator.next();
+				temp.setWeight(Double.POSITIVE_INFINITY);
+				temp.visited = false;
+				nodeData[i] =  temp;
 
-			nodeData[i] = (NodeData) dGraph.getNode(i);
+
 		}
-		Dijkstra2 ds = new Dijkstra2(nodeData, src);
+//		Dijkstra2 ds = new Dijkstra2(nodeData, src);
+//		ds.computePaths();
+		Dijkstra ds = new Dijkstra(nodeData, src);
 		ds.computePaths();
 
-		if (dGraph.getNode(dest).getWeight() == Double.MAX_VALUE) {
+		if (dGraph.getNode(dest).getWeight() == Double.POSITIVE_INFINITY) {
 			throw new RuntimeException("the graph may not been connected");
 		}
 

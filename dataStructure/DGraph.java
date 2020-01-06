@@ -110,10 +110,10 @@ public class DGraph implements graph, Serializable {
 				}
 		Edge e = new Edge((NodeData) dest_node,w);
 		((NodeData) src_node).adjacency.put(dest_node.getKey() ,e );*/
-		if (this.connectivity.get(src) == null){
+		if (this.getNode(dest)== null){
 			throw new IllegalArgumentException("Source key not found");
 		}
-		if (this.connectivity.get(dest) == null){
+		if (this.getNode(dest) == null){
 			throw new IllegalArgumentException("dest key not found: " + dest);
 		}
 

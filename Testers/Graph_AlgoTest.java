@@ -13,7 +13,7 @@ class Graph_AlgoTest {
 
     static Graph_Algo g = new Graph_Algo();
 
-    @BeforeAll
+   // @BeforeAll
    static void init_for_test()
     {
         g.dGraph = new DGraph(5);
@@ -127,4 +127,41 @@ class Graph_AlgoTest {
 
 
     }
+    @Test
+    void sp_test()
+    {
+        DGraph g1 = new DGraph();
+       /* NodeData n1 = new NodeData(0, 0, new Point3D(200,160,0));
+        NodeData n2 = new NodeData(1, 0, new Point3D(300,300,0));
+
+        g1.addNode(n1);
+        g1.addNode(n2);
+
+        g1.connect(0,1,0.5);*/
+        NodeData n0 = new NodeData(0,2, new Point3D(130,130,0));
+        NodeData n1 = new NodeData(1,2, new Point3D(200,300,0));
+        NodeData n2 = new NodeData(2,2, new Point3D(150,260,0));
+        NodeData n3 = new NodeData(3,2, new Point3D(175,210,0));
+        NodeData n4 = new NodeData(4,2, new Point3D(125,310,0));
+        g1.addNode(n0);
+        g1.addNode(n1);
+        g1.addNode(n2);
+        g1.addNode(n3);
+        g1.addNode(n4);
+
+        g1.connect(0,1,2);
+        g1.connect(1,3,1);
+        g1.connect(3,4,1);
+        g1.connect(4,2,1);
+        g1.connect(2,1,1);
+        g.init(g1);
+        //g.dGraph = g1;
+        Iterator<node_data> list =  (g.shortestPath(1,2)).listIterator();
+        while (list.hasNext())
+        {
+            System.out.println( list.next().getKey());
+        }
+    }
+
+
 }
