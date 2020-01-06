@@ -93,6 +93,46 @@ class Graph_AlgoTest {
     @Test
     void TSP() {
 
+        g.dGraph.addNode(new NodeData(1));
+        g.dGraph.addNode(new NodeData(2));
+        g.dGraph.addNode(new NodeData(3));
+        g.dGraph.addNode(new NodeData(4));
+        g.dGraph.addNode(new NodeData(5));
+
+        g.dGraph.connect(1,3,1);
+        g.dGraph.connect(3,4,1);
+        g.dGraph.connect(4,5,1);
+        g.dGraph.connect(5,1,1);
+        g.dGraph.connect(1,2,1);
+        g.dGraph.connect(2,3,1);
+
+        List<Integer> targets = new ArrayList<Integer>();
+        targets.add(4);
+        targets.add(3);
+        targets.add(2);
+        // ANSWER SHOULD BE: [4,5,1,3,4,5,1,2]
+
+        int[] real_ans = {4,5,1,3,4,5,1,2};
+
+        g.TSP(targets).forEach((n)-> {
+            System.out.print(((NodeData)n).getKey()+",");
+        });
+
+        targets.clear();
+        targets.add(1);
+        targets.add(4);
+        targets.add(5);
+
+        // ANSWER SHOULD BE: [1,3,4,5]
+        int[] real_ans2 = {1,3,4,5};
+        g.TSP(targets).forEach((n)-> {
+            System.out.print(((NodeData)n).getKey()+",");
+        });
+
+
+
+/*
+
         g.dGraph.addNode(new NodeData(1,0, new Point3D(100,200,300)));
         g.dGraph.addNode(new NodeData(2,0, new Point3D(200,300,400)));
         g.dGraph.connect(1, 2, 5);
@@ -109,7 +149,7 @@ class Graph_AlgoTest {
             for (int i = 0; i < ans.size(); i++) {
                 System.out.print(ans.get(i).getKey() + " ");
             }
-        }
+        }*/
     }
 
     @Test

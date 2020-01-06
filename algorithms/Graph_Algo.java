@@ -197,9 +197,10 @@ public class Graph_Algo implements graph_algorithms{
 
 			for (int j = 0; edge_dataIterator.hasNext() && !finished; j++)
 				{
-					if(targets.contains(edge_dataIterator.next().getDest()))
+					int dest_temp = edge_dataIterator.next().getDest();
+					if(targets.contains(dest_temp))
 						{
-							src = (NodeData) dGraph.getNode(targets.get(j));
+							src = (NodeData) dGraph.getNode(targets.get(dest_temp));
 							j = 0;
 							edge_list	=  dGraph.getE(src.getKey());
 							edge_dataIterator = edge_list.iterator();
@@ -236,6 +237,6 @@ public class Graph_Algo implements graph_algorithms{
 		graph g = new DGraph((DGraph) dGraph);
 		return g;
 	}
-	
+
 
 }
